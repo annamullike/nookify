@@ -1,0 +1,77 @@
+$c1: #9dffb0;
+$c2: #81f1f7;
+$c3: #ffffaa;
+$c4: #c48d3f;
+$c5: #fff563;
+
+body {
+  background-color: $c2;
+}
+.navbar {
+  justify-content: center;
+  display: flex;
+
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
+    float: right;
+    font-size: 20px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    display: flex; /* Add display flex to ul to align li horizontally */
+    list-style: none;
+  }
+  li {
+    margin-right: 30px; /* Add margin-right to li for spacing between links */
+  }
+}
+.card {
+  margin: auto;
+  position: relative;
+}
+
+.contentBox {
+  width: 1200px;
+  margin: auto;
+  .searchContainer {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 3 columns */
+    gap: 60px; /* gap between cards */
+  }
+  .topContainer {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 3 columns */
+    gap: 60px; /* gap between cards */
+  }
+}
+.card {
+  width: 400px;
+  height: 500px;
+  text-align: center;
+  justify-content: center;
+  .cardContainer {
+    margin-top: 70px;
+  }
+  h1 {
+    text-align: center;
+  }
+  img {
+    margin: auto;
+  }
+  
+}
+button {
+  background-color: $c1;
+  border-radius: 20px;
+  height: 40px;
+  width: 200px;
+}
