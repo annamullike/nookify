@@ -16,9 +16,20 @@ router.get("/toptracks", spotifyController.getTopTracks, (req, res) => {
 router.get("/search/:query", spotifyController.refreshToken ,spotifyController.search, (req,res) => {
   return res.status(200).json({data: res.locals.searchDataName})
 })
-router.post("/playtrack", spotifyController.refreshToken, spotifyController.playTrack, (req,res) => {
-  console.log("made it to the end of it hehe")
+router.post("/playcurrent", spotifyController.refreshToken, spotifyController.playCurrent, (req,res) => {
   return res.status(200).send("SUCCESS")
+})
+router.post("/playtrack", spotifyController.refreshToken, spotifyController.playTrack, (req,res) => {
+  return res.status(200).send("SUCCESS")
+})
+router.get("/pause",spotifyController.refreshToken, spotifyController.pauseTrack, (req, res) => {
+  return res.status(200).send("success")
+})
+router.post("/previous",spotifyController.refreshToken, spotifyController.rewind, (req,res) => {
+  return res.status(200).send("success")
+})
+router.post("/next",spotifyController.refreshToken, spotifyController.fastforward, (req,res) => {
+  return res.status(200).send("success")
 })
 
 

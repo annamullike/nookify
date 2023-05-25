@@ -6,6 +6,7 @@ import Card from "./components/Card";
 import Navbar from "./components/Navbar";
 import TopTracksButton from "./components/TopTracksButton";
 import froggy from "./assets/froggy2.png"
+import Player from "./components/Player";
 function App() {
   const [images, setImages] = useState([]);
   const [names, setNames] = useState([]);
@@ -44,6 +45,7 @@ function App() {
         </div>
         :<p></p>}
       </div>
+      <Player/>
     </div>
   );
 }
