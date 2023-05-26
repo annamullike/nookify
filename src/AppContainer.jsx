@@ -10,7 +10,7 @@ import {
 const routes = createBrowserRouter([
   {
     path: "/secret",
-    element: <div>HEY BITCH</div>,
+    element: <div>Secret page</div>,
   },
   {
     path: "/",

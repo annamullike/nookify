@@ -40,13 +40,7 @@ spotifyController.getTopTracks = async (req, res, next) => {
   )
     .then((res) => res.json())
     .then((data) => {
-      //const data2 = [];
-      // data.items.forEach(obj => {
-      //   console.log("OBJ ",obj)
-      // })
       res.locals.topTrackData = data.items
-      //res.locals.topTrackData = data2
-      ///console.log(data.items)
       return next();
     });
 };
@@ -67,7 +61,6 @@ spotifyController.getAuthCode = async (req, res, next) => {
 spotifyController.refreshToken = async (req, res, next) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
-    console.log("prev access token ", spotifyApi["_credentials"].accessToken)
     req.accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(data.body["access_token"]);
     req.testToken = data.body["access_token"]
@@ -92,11 +85,9 @@ spotifyController.fastforward = async (req, res, next) => {
       console.error("Error ffwd track:", response.statusText);
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
-      // Handle the error as needed
     }
   } catch (error) {
     console.error("Error in fetch request:", error);
-    // Handle the error as needed
   }
 }
 spotifyController.rewind = async (req, res, next) => {
@@ -115,11 +106,9 @@ spotifyController.rewind = async (req, res, next) => {
       console.error("Error pausing track:", response.statusText);
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
-      // Handle the error as needed
     }
   } catch (error) {
     console.error("Error in fetch request:", error);
-    // Handle the error as needed
   }
 }
 
@@ -139,11 +128,10 @@ spotifyController.pauseTrack = async (req, res, next) => {
       console.error("Error pausing track:", response.statusText);
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
-      // Handle the error as needed
     }
   } catch (error) {
     console.error("Error in fetch request:", error);
-    // Handle the error as needed
+
   }
 }
 spotifyController.playCurrent = async (req, res, next) => {
@@ -152,11 +140,8 @@ spotifyController.playCurrent = async (req, res, next) => {
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
-  
     const { trackUri } = req.body;
     const uri = "spotify:track:" + trackUri;
-  
-    // Play the track using the refreshed access token
     const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
       method: "PUT",
       headers: {
@@ -169,11 +154,9 @@ spotifyController.playCurrent = async (req, res, next) => {
       console.error("Error playing track:", response.statusText);
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
-      // Handle the error as needed
     }
   } catch (error) {
     console.error("Error in fetch request:", error);
-    // Handle the error as needed
   }
   
   return next();
@@ -184,11 +167,8 @@ spotifyController.playTrack = async (req, res, next) => {
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
-  
     const { trackUri } = req.body;
     const uri = "spotify:track:" + trackUri;
-  
-    // Play the track using the refreshed access token
     const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
       method: "PUT",
       headers: {
