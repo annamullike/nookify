@@ -17,7 +17,7 @@ const spotifyController = {};
 //const refreshToken = spotifyApi["_credentials"].refreshToken || null;
 spotifyController.search = async (req, res, next) => {
   const {query} = req.params;
-  fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=5`, {
+  fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=15`, {
     headers: {
       Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
     },
@@ -31,7 +31,7 @@ spotifyController.search = async (req, res, next) => {
 
 spotifyController.getTopTracks = async (req, res, next) => {
   fetch(
-    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5",
+    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=20",
     {
       headers: {
         Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
@@ -44,7 +44,53 @@ spotifyController.getTopTracks = async (req, res, next) => {
       return next();
     });
 };
-
+spotifyController.currentTrack = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const { track } = req.body
+    const response = await fetch(`https://api.spotify.com/v1/me/player/currently-playing`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      }
+    })
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
+spotifyController.likeTrack = async (req,res,next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const { track } = req.body
+    const response = await fetch(`https://api.spotify.com/v1/me/tracks`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ids: [track]
+      }),
+    })
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
 spotifyController.getAuthCode = async (req, res, next) => {
   const code = req.query.code;
   spotifyApi.authorizationCodeGrant(code).then(
@@ -140,8 +186,8 @@ spotifyController.playCurrent = async (req, res, next) => {
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
-    const { trackUri } = req.body;
-    const uri = "spotify:track:" + trackUri;
+    // const { trackUri } = req.body;
+    // const uri = "spotify:track:" + trackUri;
     const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
       method: "PUT",
       headers: {

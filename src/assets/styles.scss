@@ -5,7 +5,61 @@ $c4: #c48d3f;
 $c5: #fff563;
 
 body {
+  color: rgb(69, 67, 67);
   background-color: $c2;
+}
+.searchResults::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+.searchResults::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set the background color of the scrollbar track */
+}
+
+.searchResults::-webkit-scrollbar-thumb {
+  background-color: $c4; /* Set the color of the scrollbar thumb */
+  border-radius: 4px; /* Add border-radius to make the scrollbar thumb rounded */
+}
+.searchResults {
+  margin: 10px;
+  padding: 0 10px 0 10px;
+  //background-color: $c3;
+  max-width: 400px;
+  max-height: 500px;
+
+  .searchResults::-webkit-scrollbar {
+    width: 8px; /* Adjust the width of the scrollbar */
+  }
+  overflow-x: hidden;
+  .search {
+    
+    justify-content: center;
+    
+  }
+  .searchResultsContainer {
+    
+    border-radius: 10px;
+    background-color: rgb(237, 242, 243);
+    >img {
+      margin: auto;
+    }
+    > :hover {
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    display: flex;
+    padding: 20px;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 15px;
+    > h3 {
+      margin: 0;
+      color: rgb(69, 67, 67);
+    }
+  }
 }
 .navbar {
   justify-content: center;
@@ -41,6 +95,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  width: 500px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   background-color: $c3;
@@ -51,7 +107,6 @@ body {
     align-items: center;
     > a {
       margin: 20px;
-      
     }
   }
 }
@@ -81,7 +136,6 @@ a {
   justify-content: center;
   .cardContainer {
     margin-top: 70px;
-    
   }
   h1 {
     text-align: center;
@@ -90,21 +144,28 @@ a {
     margin: auto;
   }
 }
+.input {
+  border: 2px;
+  border-radius: 5px;
+  margin-left: 40px;
+  padding: 10px;
+  width: 332px;
+}
 button {
   background-color: $c1;
   border-radius: 20px;
   height: 40px;
   width: 200px;
 }
- svg {
-  color: $c1;
+svg {
+  color: $c4;
   width: 50px;
   height: 50px;
 }
- svg:hover {
-  color: rgb(77, 195, 77);
-  transition: .2s;
+svg:hover {
+  color: $c1;
+  transition: 0.2s;
 }
- svg:not(hover) {
-  transition: .2s;
+svg:not(hover) {
+  transition: 0.2s;
 }

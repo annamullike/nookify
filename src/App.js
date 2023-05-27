@@ -32,19 +32,8 @@ function App() {
           ))}
         </div>
         :<p></p>}
-        {names.length > 0 ?
-        <div className="searchContainer">
-          {names.map((name,index)=>(
-            <Card
-            title={name}
-            src={images[index]}
-            key={index}
-            id={idS[index]}
-            />
-          ))}
-        </div>
-        :<p></p>}
-      </div>
+        
+      </div> 
       <Player/>
     </div>
   );

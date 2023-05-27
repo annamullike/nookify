@@ -31,7 +31,12 @@ router.post("/previous",spotifyController.refreshToken, spotifyController.rewind
 router.post("/next",spotifyController.refreshToken, spotifyController.fastforward, (req,res) => {
   return res.status(200).send("success")
 })
-
+router.post("/like", spotifyController.refreshToken, spotifyController.likeTrack, (req,res) => {
+  return res.status(200).send("success")
+})
+router.get("/like", spotifyController.refreshToken, spotifyController.currentTrack, (req,res) => {
+  return res.status(200).send("success")
+})
 
 
 module.exports = router;
