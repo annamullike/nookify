@@ -8,6 +8,28 @@ body {
   color: rgb(69, 67, 67);
   background-color: $c2;
 }
+#spotify-player-container {
+  width: 300px;
+  height: 80px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.search {
+  width: 500px;
+  height: 83vh;
+}
+.sidebarContainer {
+  
+  >.sidebar {
+    margin-top: 150px;
+    max-width: 660px;
+position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  }
+}
 .searchResults::-webkit-scrollbar {
   width: 8px; /* Adjust the width of the scrollbar */
 }
@@ -25,17 +47,12 @@ body {
   padding: 0 10px 0 10px;
   //background-color: $c3;
   max-width: 400px;
-  max-height: 500px;
+  max-height: 100%;
 
   .searchResults::-webkit-scrollbar {
     width: 8px; /* Adjust the width of the scrollbar */
   }
   overflow-x: hidden;
-  .search {
-    
-    justify-content: center;
-    
-  }
   .searchResultsContainer {
     
     border-radius: 10px;

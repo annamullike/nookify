@@ -17,20 +17,6 @@ function SearchButton(props) {
     }
   }, [input]);
 
-  // function getSearchData() {
-  //   const names = [];
-  //   const images = [];
-  //   const id = [];
-  //   for (let i = 0; i < searchData.data.length; i++) {
-  //     names.push(searchData.data[i].name);
-  //     images.push(searchData.data[i].album.images[1].url);
-  //     id.push(searchData.data[i].id);
-  //   }
-  //   props.setImages(images);
-  //   props.setNames(names);
-  //   props.setIdSearch(id);
-  // }
-
   return (
     <div className="search">
       <input className="input" placeholder={"Search song..."}

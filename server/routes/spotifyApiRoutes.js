@@ -37,6 +37,11 @@ router.post("/like", spotifyController.refreshToken, spotifyController.likeTrack
 router.get("/like", spotifyController.refreshToken, spotifyController.currentTrack, (req,res) => {
   return res.status(200).send("success")
 })
-
+router.get("/accesstoken", spotifyController.refreshToken, (req,res) => {
+  return res.status(200).json({"token": res.locals.accessToken})
+})
+router.get("/getdevice", spotifyController.refreshToken, spotifyController.getDevice, (req,res) => {
+  return res.status(200).json({"token": res.locals.deviceId})
+})
 
 module.exports = router;
