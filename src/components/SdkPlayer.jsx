@@ -36,6 +36,7 @@ function SdkPlayer(props) {
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
+        // setActive(true)
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -65,6 +66,7 @@ function SdkPlayer(props) {
     <>
       <div className="player">
         <div className="player-container">
+          <button onClick={()=>{setActive(true)}}>START PLAYBACK</button>
           <img
             src={current_track.album.images[0].url}
             className="now-playing__cover"

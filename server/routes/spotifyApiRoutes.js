@@ -19,10 +19,10 @@ router.get("/search/:query", spotifyController.refreshToken ,spotifyController.s
 router.post("/playcurrent", spotifyController.refreshToken, spotifyController.playCurrent, (req,res) => {
   return res.status(200).send("SUCCESS")
 })
-router.post("/playtrack", spotifyController.refreshToken, spotifyController.playTrack, (req,res) => {
+router.post("/playtrack", spotifyController.refreshToken,spotifyController.getDevice, spotifyController.playTrack, (req,res) => {
   return res.status(200).send("SUCCESS")
 })
-router.get("/pause",spotifyController.refreshToken, spotifyController.pauseTrack, (req, res) => {
+router.get("/pause",spotifyController.refreshToken, spotifyController.getDevice, spotifyController.pauseTrack, (req, res) => {
   return res.status(200).send("success")
 })
 router.post("/previous",spotifyController.refreshToken, spotifyController.rewind, (req,res) => {
@@ -32,6 +32,7 @@ router.post("/next",spotifyController.refreshToken, spotifyController.fastforwar
   return res.status(200).send("success")
 })
 router.post("/like", spotifyController.refreshToken, spotifyController.likeTrack, (req,res) => {
+  //console.log("end of middleware in like")
   return res.status(200).send("success")
 })
 router.get("/like", spotifyController.refreshToken, spotifyController.currentTrack, (req,res) => {

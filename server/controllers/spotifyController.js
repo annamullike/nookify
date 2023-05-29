@@ -45,33 +45,80 @@ spotifyController.getTopTracks = async (req, res, next) => {
       return next();
     });
 };
-spotifyController.getDevice = async (req, res, next) => {
-  const data = await spotifyApi.refreshAccessToken();
-  const accessToken = data.body["access_token"];
-  spotifyApi.setAccessToken(accessToken);
-  const { track } = req.body;
-  fetch(`https://api.spotify.com/v1/me/player/devices`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Filter the devices by name
-      const desiredDevice = data.devices.find(
-        (device) => device.name === "Nookify Web Application"
-      );
-      if (desiredDevice) {
-        const desiredDeviceId = desiredDevice.id;
-        res.locals.deviceId = desiredDeviceId
-        return next()
-      } else {
-        console.log("Device not found");
-      }
-    })
-    .catch((error) => {
-      console.error("Error retrieving devices:", error);
+spotifyController.playTrack = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const { trackUri } = req.body;
+    const uri = "spotify:track:" + trackUri;
+    console.log("DEVICE HERE IN PLAYTRACK ", res.locals.nookifyDeviceId)
+    console.log("ID HER EIN PLAYTRACK ",res.locals.nookifyDeviceId)
+    const url = `https://api.spotify.com/v1/me/player/play`;
+    const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uris: [uri],
+        position_ms: 0,
+        market: "US",
+        device_id: res.locals.nookifyDeviceId,
+      }),
     });
+
+    if (!response.ok) {
+      console.error("Error playing track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+      // Handle the error as needed
+    }
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+    // Handle the error as needed
+  }
+
+  return next();
+};
+spotifyController.getDevice = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/player/devices`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    } else {
+      const device = await response.json();
+      console.log("DEVICES HERE ", device);
+      //console.log(device)
+      const nookifyDevice = device.devices.find(
+        (i) => i.name === "Nookify Web Application"
+      );
+      if (nookifyDevice) {
+        res.locals.nookifyDeviceId = nookifyDevice.id;
+        nookifyDevice.is_active = true;
+        console.log("device after ", device)
+      }
+      console.log("device id",res.locals.nookifyDeviceId)
+    }
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
 };
 spotifyController.currentTrack = async (req, res, next) => {
   try {
@@ -119,6 +166,7 @@ spotifyController.likeTrack = async (req, res, next) => {
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
     }
+    return next();
   } catch (error) {
     console.error("Error in fetch request:", error);
   }
@@ -235,7 +283,7 @@ spotifyController.playCurrent = async (req, res, next) => {
     });
 
     if (!response.ok) {
-      console.error("Error playing track:", response.statusText);
+      console.error("Error getting current track:", response.statusText);
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
     }
@@ -245,40 +293,7 @@ spotifyController.playCurrent = async (req, res, next) => {
 
   return next();
 };
-spotifyController.playTrack = async (req, res, next) => {
-  try {
-    const data = await spotifyApi.refreshAccessToken();
-    const accessToken = data.body["access_token"];
-    spotifyApi.setAccessToken(accessToken);
-    const { trackUri } = req.body;
-    const uri = "spotify:track:" + trackUri;
-    const url = `https://api.spotify.com/v1/me/player/play?device_id=${res.locals.deviceId}`
-    const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        uris: [uri],
-        position_ms: 0,
-        market: "US",
-      }),
-    });
 
-    if (!response.ok) {
-      console.error("Error playing track:", response.statusText);
-      const responseBody = await response.json();
-      console.error("Response body:", responseBody);
-      // Handle the error as needed
-    }
-  } catch (error) {
-    console.error("Error in fetch request:", error);
-    // Handle the error as needed
-  }
-
-  return next();
-};
 
 // spotifyController.playTrack = async (req, res, next) => {
 
@@ -360,3 +375,30 @@ const checkAccessToken = (req, res, next) => {
 //     }
 //   );
 // }
+// const data = await spotifyApi.refreshAccessToken();
+// const accessToken = data.body["access_token"];
+// spotifyApi.setAccessToken(accessToken);
+// const { track } = req.body;
+// fetch(`https://api.spotify.com/v1/me/player/devices`, {
+//   headers: {
+//     Authorization: "Bearer " + accessToken,
+//   },
+// })
+//   .then((response) => response.json())
+//   .then((data) => {
+//     // Filter the devices by name
+//     console.log("DEVICES HERE ", data)
+//     const desiredDevice = data.devices.find(
+//       (device) => device.name === "Nookify Web Application"
+//     );
+//     if (desiredDevice) {
+//       const desiredDeviceId = desiredDevice.id;
+//       res.locals.deviceId = desiredDeviceId
+//       return next()
+//     } else {
+//       console.log("Device not found");
+//     }
+//   })
+//   .catch((error) => {
+//     console.error("Error retrieving devices:", error);
+//   });
