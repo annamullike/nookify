@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import styles from "./SdkPlayer.module.scss"
 function SdkPlayer(props) {
   const track = {
     name: "",
@@ -72,21 +72,22 @@ function SdkPlayer(props) {
   }, []);
   return (
     <>
-      <div className="player">
+      <div className={styles.player}>
         <div className="player-container">
           {!set ? (
             <button onClick={transfer}>transfer playback</button>
           ) : (
-            <div className="player-content">
-              <img
-                width={"50%"}
+            <div className={styles.playerContent}>
+              <div className={styles.left}><img
+                width={"30%"}
                 src={current_track.album.images[0].url}
-                className="now-playing__cover"
+                className="now-playing-cover"
                 alt="none"
-              />
-
-              <div className="now-playing__side">
-                <div className="now-playing__name">{current_track.name}</div>
+              /></div>
+              
+            
+              <div className={styles.right}>
+                <div className="now-playing-name">{current_track.name}</div>
 
                 <div className="now-playing__artist">
                   {current_track.artists[0].name}

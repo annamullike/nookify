@@ -1,11 +1,13 @@
 import React from "react";
-import Player from "./Player";
+
+import SearchResults from "./SearchResults";
 import SearchButton from "./SearchButton";
-import "../assets/styles.scss";
+import styles from "./Search.module.scss"
+
 function Sidebar() {
   return (
-    <div className="sidebarContainer">
-      <div className="sidebar">
+    <div className={styles.sidebarContainer}>
+      <div className={styles.sidebar}>
         <SearchButton />
       </div>
     </div>

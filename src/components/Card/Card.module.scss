@@ -1,0 +1,21 @@
+$c1: #9dffb0;
+$c2: #81f1f7;
+$c3: #ffffaa;
+$c4: #c48d3f;
+$c5: #fff563;
+
+.card {
+    width: 400px;
+    height: 500px;
+    text-align: center;
+    justify-content: center;
+    .cardContainer {
+      margin-top: 70px;
+    }
+    h1 {
+      text-align: center;
+    }
+    img {
+      margin: auto;
+    }
+  }

@@ -1,6 +1,8 @@
 import React from "react";
-import "../assets/styles.scss";
-import froggy from "../assets/froggy2.png";
+// import "../assets/styles.scss";
+// import froggy from "../assets/froggy2.png";
+import froggy from "../../assets/froggy2.png";
+import styles from "./Card.module.scss"
 function Card(props) {
   const { title, src, id } = props;
   const like = () => {
@@ -37,7 +39,7 @@ function Card(props) {
   };
   return (
     <div
-      className="card"
+      className={styles.card}
       style={{
         backgroundImage: `url(${froggy})`,
         backgroundPosition: "center ",
@@ -46,7 +48,7 @@ function Card(props) {
         height: "490px",
       }}
     >
-      <div className="cardContainer">
+      <div className={styles.cardContainer}>
         <h3>{title}</h3>
         <img src={src} />
         <div><a onClick={play}>

@@ -1,0 +1,77 @@
+$c1: #9dffb0;
+$c2: #81f1f7;
+$c3: #ffffaa;
+$c4: #c48d3f;
+$c5: #fff563;
+
+.search {
+  width: 500px;
+  height: 83vh;
+}
+
+.input {
+  border: 2px;
+  border-radius: 5px;
+  margin-left: 40px;
+  padding: 10px;
+  width: 332px;
+}
+
+.searchResults::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+.searchResults::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set the background color of the scrollbar track */
+}
+
+.searchResults::-webkit-scrollbar-thumb {
+  background-color: $c4; /* Set the color of the scrollbar thumb */
+  border-radius: 4px; /* Add border-radius to make the scrollbar thumb rounded */
+}
+.searchResults {
+  margin: 10px;
+  padding: 0 10px 0 10px;
+  //background-color: $c3;
+  max-width: 400px;
+  max-height: 90%;
+
+  .searchResults::-webkit-scrollbar {
+    width: 8px; /* Adjust the width of the scrollbar */
+  }
+  overflow-x: hidden;
+  .searchResultsContainer {
+    border-radius: 10px;
+    background-color: rgb(237, 242, 243);
+    > img {
+      margin: auto;
+    }
+    > :hover {
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    display: flex;
+    padding: 20px;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 15px;
+    > h3 {
+      margin: 0;
+      color: rgb(69, 67, 67);
+    }
+  }
+}
+
+.sidebarContainer {
+  > .sidebar {
+    margin-top: 150px;
+    max-width: 660px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+  }
+}

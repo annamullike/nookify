@@ -8,30 +8,7 @@ body {
   color: rgb(69, 67, 67);
   background-color: $c2;
 }
-#spotify-player-container {
-  width: 300px;
-  height: 80px;
-  background-color: #000000;
-  color: #ffffff;
-}
-.player-content {
-  display: flex;
-}
-.search {
-  width: 500px;
-  height: 83vh;
-}
-.sidebarContainer {
-  
-  >.sidebar {
-    margin-top: 150px;
-    max-width: 660px;
-position: fixed;
-  top: 0;
-  left: 0;
-  width: 200px;
-  }
-}
+
 .searchResults::-webkit-scrollbar {
   width: 8px; /* Adjust the width of the scrollbar */
 }
@@ -49,36 +26,12 @@ position: fixed;
   padding: 0 10px 0 10px;
   //background-color: $c3;
   max-width: 400px;
-  max-height: 100%;
+  max-height: 90%;
 
   .searchResults::-webkit-scrollbar {
     width: 8px; /* Adjust the width of the scrollbar */
   }
   overflow-x: hidden;
-  .searchResultsContainer {
-    
-    border-radius: 10px;
-    background-color: rgb(237, 242, 243);
-    >img {
-      margin: auto;
-    }
-    > :hover {
-      transition: 0.2s;
-      cursor: pointer;
-    }
-    display: flex;
-    padding: 20px;
-  }
-  .info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    margin-left: 15px;
-    > h3 {
-      margin: 0;
-      color: rgb(69, 67, 67);
-    }
-  }
 }
 .navbar {
   justify-content: center;
@@ -109,38 +62,19 @@ position: fixed;
   margin: auto;
   position: relative;
 }
-.player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 500px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  background-color: $c3;
-  padding: 20px;
-  .player-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > a {
-      margin: 20px;
-    }
-  }
-}
+
 a {
   cursor: pointer;
 }
 .contentBox {
   width: 1200px;
   margin: auto;
-  .searchContainer {
-    justify-content: center;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 3 columns */
-    gap: 60px; /* gap between cards */
-  }
+  // .searchContainer {
+  //   justify-content: center;
+  //   display: grid;
+  //   grid-template-columns: repeat(4, 1fr); /* 3 columns */
+  //   gap: 60px; /* gap between cards */
+  // }
   .topContainer {
     justify-content: center;
     display: grid;
@@ -148,21 +82,7 @@ a {
     gap: 60px; /* gap between cards */
   }
 }
-.card {
-  width: 400px;
-  height: 500px;
-  text-align: center;
-  justify-content: center;
-  .cardContainer {
-    margin-top: 70px;
-  }
-  h1 {
-    text-align: center;
-  }
-  img {
-    margin: auto;
-  }
-}
+
 .input {
   border: 2px;
   border-radius: 5px;

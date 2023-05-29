@@ -1,14 +1,14 @@
 import "./App.css";
 import AuthButton from "./components/AuthButton";
-import SearchButton from "./components/SearchButton";
+import SearchButton from "./components/Search/SearchButton";
 import React, { useState, useEffect } from "react";
-import Card from "./components/Card";
+import Card from "./components/Card/Card";
 import Navbar from "./components/Navbar";
 import TopTracksButton from "./components/TopTracksButton";
 import froggy from "./assets/froggy2.png";
-import Player from "./components/Player";
-import Sidebar from "./components/Sidebar";
-import SdkPlayer from "./components/SdkPlayer";
+// import Player from "./components/Player";
+import Sidebar from "./components/Search/Sidebar";
+import SdkPlayer from "./components/SdkPlayer/SdkPlayer";
 function App() {
   // const [images, setImages] = useState([]);
   // const [names, setNames] = useState([]);
@@ -39,13 +39,13 @@ function App() {
   return (
     <div>
       <Navbar />
-      <button onClick={transfer}>transfer playback here</button>
-      <button onClick={getDevice}>DEVICE HERE</button>
-      <button
+      {/* <button onClick={transfer}>transfer playback here</button>
+      <button onClick={getDevice}>DEVICE HERE</button> */}
+      {/* <button
         onClick={() => {
           console.log(token);
         }}
-      ></button>
+      ></button> */}
       <TopTracksButton
         setTopImages={setTopImages}
         setTopNames={setTopNames}
@@ -69,7 +69,7 @@ function App() {
           <p></p>
         )}
       </div>
-      {/* <Player/> */}
+      
       <Sidebar />
     </div>
   );
