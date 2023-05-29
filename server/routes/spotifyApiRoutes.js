@@ -42,7 +42,10 @@ router.get("/accesstoken", spotifyController.refreshToken, (req,res) => {
   return res.status(200).json({"token": res.locals.accessToken})
 })
 router.get("/getdevice", spotifyController.refreshToken, spotifyController.getDevice, (req,res) => {
-  return res.status(200).json({"token": res.locals.deviceId})
+  return res.status(200).json({"deviceID": res.locals.nookifyDeviceId})
+})
+router.get("/transfer", spotifyController.refreshToken, spotifyController.getDevice, spotifyController.transferPlayback, (req, res) => {
+  return res.status(200)
 })
 
 module.exports = router;

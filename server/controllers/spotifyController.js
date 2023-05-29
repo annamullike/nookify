@@ -82,6 +82,36 @@ spotifyController.playTrack = async (req, res, next) => {
 
   return next();
 };
+spotifyController.transferPlayback = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    console.log("in the transfer playback ", res.locals.nookifyDeviceId)
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/player`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "device_ids": [res.locals.nookifyDeviceId]
+        })
+      },
+      
+    );
+    if (!response.ok) {
+      console.error("Error transfer playback:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
 spotifyController.getDevice = async (req, res, next) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
@@ -110,7 +140,7 @@ spotifyController.getDevice = async (req, res, next) => {
       );
       if (nookifyDevice) {
         res.locals.nookifyDeviceId = nookifyDevice.id;
-        nookifyDevice.is_active = true;
+        // nookifyDevice.is_active = true;
         console.log("device after ", device)
       }
       console.log("device id",res.locals.nookifyDeviceId)

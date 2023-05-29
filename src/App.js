@@ -17,6 +17,13 @@ function App() {
   const [idT, setIdTop] = useState([]);
   const [token, setToken] = useState("");
   const [device, setDevice] = useState("");
+  const transfer = () => {
+    fetch("http://localhost:5000/api/spotify/transfer")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("transfered playback devices")
+      })
+  }
   useEffect(() => {
     fetch("http://localhost:5000/api/spotify/accesstoken")
       .then((res) => res.json())
@@ -27,15 +34,12 @@ function App() {
   }, []);
   const getDevice = () => {
     fetch("http://localhost:5000/api/spotify/getdevice")
-      .then((res) => res.json())
-      .then((data) => {
-        setDevice(data);
-        console.log("device here", device);
-      });
+      
   };
   return (
     <div>
       <Navbar />
+      <button onClick={transfer}>transfer playback here</button>
       <button onClick={getDevice}>DEVICE HERE</button>
       <button
         onClick={() => {

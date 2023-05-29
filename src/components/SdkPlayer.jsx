@@ -12,7 +12,15 @@ function SdkPlayer(props) {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
-
+  const [set, setSet] = useState(false);
+  const transfer = () => {
+    setSet(true);
+    fetch("http://localhost:5000/api/spotify/transfer")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("transfered playback devices");
+      });
+  };
   useEffect(() => {
     const initializePlayer = async () => {
       const script = document.createElement("script");
@@ -60,52 +68,75 @@ function SdkPlayer(props) {
     };
 
     initializePlayer();
-  }, [props.token]);
-
+    // setActive(true)
+  }, []);
   return (
     <>
       <div className="player">
         <div className="player-container">
-          <button onClick={()=>{setActive(true)}}>START PLAYBACK</button>
-          <img
-            src={current_track.album.images[0].url}
-            className="now-playing__cover"
-            alt="none"
-          />
+          {!set ? (
+            <button onClick={transfer}>transfer playback</button>
+          ) : (
+            <div className="player-content">
+              <img
+                width={"50%"}
+                src={current_track.album.images[0].url}
+                className="now-playing__cover"
+                alt="none"
+              />
 
-          <div className="now-playing__side">
-            <div className="now-playing__name">{current_track.name}</div>
+              <div className="now-playing__side">
+                <div className="now-playing__name">{current_track.name}</div>
 
-            <div className="now-playing__artist">
-              {current_track.artists[0].name}
+                <div className="now-playing__artist">
+                  {current_track.artists[0].name}
+                </div>
+                <a
+                  className="btn-spotify"
+                  onClick={() => {
+                    player.previousTrack();
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-rewind" viewBox="0 0 16 16">
+  <path d="M9.196 8 15 4.633v6.734L9.196 8Zm-.792-.696a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L8.404 7.304Z"/>
+  <path d="M1.196 8 7 4.633v6.734L1.196 8Zm-.792-.696a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L.404 7.304Z"/>
+</svg>
+                  
+                </a>
+
+                <a
+                  className="btn-spotify"
+                  onClick={() => {
+                    player.togglePlay();
+                  }}
+                >
+                  <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-play-fill"
+            viewBox="0 0 16 16"
+          >
+            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+          </svg>
+                  {/* {is_paused ? "PLAY" : "PAUSE"} */}
+                </a>
+
+                <a
+                  className="btn-spotify"
+                  onClick={() => {
+                    player.nextTrack();
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-fast-forward" viewBox="0 0 16 16">
+  <path d="M6.804 8 1 4.633v6.734L6.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z"/>
+  <path d="M14.804 8 9 4.633v6.734L14.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z"/>
+</svg>
+                </a>
+              </div>
             </div>
-            <button
-              className="btn-spotify"
-              onClick={() => {
-                player.previousTrack();
-              }}
-            >
-              &lt;&lt;
-            </button>
-
-            <button
-              className="btn-spotify"
-              onClick={() => {
-                player.togglePlay();
-              }}
-            >
-              {is_paused ? "PLAY" : "PAUSE"}
-            </button>
-
-            <button
-              className="btn-spotify"
-              onClick={() => {
-                player.nextTrack();
-              }}
-            >
-              &gt;&gt;
-            </button>
-          </div>
+          )}
         </div>
       </div>
     </>
@@ -113,7 +144,6 @@ function SdkPlayer(props) {
 }
 
 export default SdkPlayer;
-
 
 // function SdkPlayer() {
 //   const [accessToken, setAccessToken] = useState("");

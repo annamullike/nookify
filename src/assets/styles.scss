@@ -14,7 +14,9 @@ body {
   background-color: #000000;
   color: #ffffff;
 }
-
+.player-content {
+  display: flex;
+}
 .search {
   width: 500px;
   height: 83vh;
