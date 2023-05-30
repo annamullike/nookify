@@ -78,21 +78,22 @@ function SdkPlayer(props) {
             <button onClick={transfer}>transfer playback</button>
           ) : (
             <div className={styles.playerContent}>
-              <div className={styles.left}><img
-                width={"30%"}
+              <img
+                width={"20%"}
+                height={"20%"}
                 src={current_track.album.images[0].url}
                 className="now-playing-cover"
                 alt="none"
-              /></div>
+              />
               
             
               <div className={styles.right}>
-                <div className="now-playing-name">{current_track.name}</div>
+                <div className={styles.currentTrack}>{current_track.name}</div>
 
-                <div className="now-playing__artist">
+                <div className={styles.currentArtist}>
                   {current_track.artists[0].name}
                 </div>
-                <a
+                <div><a
                   className="btn-spotify"
                   onClick={() => {
                     player.previousTrack();
@@ -111,7 +112,8 @@ function SdkPlayer(props) {
                     player.togglePlay();
                   }}
                 >
-                  <svg
+                  
+                  {is_paused ? <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -120,8 +122,9 @@ function SdkPlayer(props) {
             viewBox="0 0 16 16"
           >
             <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
-          </svg>
-                  {/* {is_paused ? "PLAY" : "PAUSE"} */}
+          </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause" viewBox="0 0 16 16">
+  <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+</svg>}
                 </a>
 
                 <a
@@ -134,7 +137,7 @@ function SdkPlayer(props) {
   <path d="M6.804 8 1 4.633v6.734L6.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z"/>
   <path d="M14.804 8 9 4.633v6.734L14.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z"/>
 </svg>
-                </a>
+                </a></div>
               </div>
             </div>
           )}

@@ -10,7 +10,20 @@ $c5: #fff563;
 }
 .right  {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin-left: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.currentTrack {
+  font-size: 40px;
+  
+}
+.currentArtist {
+  font-size: 20px
+}
+.playerContent {
+  display: flex;
 }
 .player {
     position: fixed;
