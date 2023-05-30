@@ -1,0 +1,31 @@
+$c1: #9dffb0;
+$c2: #81f1f7;
+$c3: #ffffaa;
+$c4: #c48d3f;
+$c5: #fff563;
+
+.navbar {
+    justify-content: center;
+    display: flex;
+  
+    .container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      float: right;
+      font-size: 20px;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      display: flex; /* Add display flex to ul to align li horizontally */
+      list-style: none;
+    }
+    li {
+      margin-right: 30px; /* Add margin-right to li for spacing between links */
+    }
+  }

@@ -1,4 +1,4 @@
-import "./App.css";
+
 import AuthButton from "./components/AuthButton";
 import SearchButton from "./components/Search/SearchButton";
 import React, { useState, useEffect } from "react";
