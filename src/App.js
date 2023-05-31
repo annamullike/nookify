@@ -9,6 +9,8 @@ import froggy from "./assets/froggy2.png";
 // import Player from "./components/Player";
 import Sidebar from "./components/Search/Sidebar";
 import SdkPlayer from "./components/SdkPlayer/SdkPlayer";
+import RightSidebar from "./components/RightSidebar/RightSidebar";
+import TopArtistsButton from "./components/TopArtists/TopArtistsButton";
 function App() {
   // const [images, setImages] = useState([]);
   // const [names, setNames] = useState([]);
@@ -51,6 +53,7 @@ function App() {
         setTopNames={setTopNames}
         setIdTop={setIdTop}
       />
+      <TopArtistsButton/>
       {token === "" ? <AuthButton /> : <SdkPlayer token={token} />}
       {/* <SearchButton setImages={setImages} setNames={setNames} setIdSearch={setIdSearch} /> */}
       <div className="contentBox">
@@ -71,6 +74,7 @@ function App() {
       </div>
       
       <Sidebar />
+      <RightSidebar/>
     </div>
   );
 }

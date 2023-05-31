@@ -12,6 +12,9 @@ router.get("/callback", spotifyController.getAuthCode,(req,res)=> {
 router.get("/toptracks", spotifyController.getTopTracks, (req, res) => {
   return res.status(200).json({data: res.locals.topTrackData})
 })
+router.get("/topartists", spotifyController.getTopArtists, (req, res) => {
+  return res.status(200).json({data: res.locals.topArtistsData})
+})
 
 router.get("/search/:query", spotifyController.refreshToken ,spotifyController.search, (req,res) => {
   return res.status(200).json({data: res.locals.searchDataName})
@@ -47,5 +50,7 @@ router.get("/getdevice", spotifyController.refreshToken, spotifyController.getDe
 router.get("/transfer", spotifyController.refreshToken, spotifyController.getDevice, spotifyController.transferPlayback, (req, res) => {
   return res.status(200)
 })
-
+router.get("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
+  return res.status(200).json({data: res.locals.recommendationsData})
+})
 module.exports = router;

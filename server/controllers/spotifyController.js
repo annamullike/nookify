@@ -29,10 +29,9 @@ spotifyController.search = async (req, res, next) => {
       return next();
     });
 };
-
-spotifyController.getTopTracks = async (req, res, next) => {
+spotifyController.getTopArtists = async (req, res, next) => {
   fetch(
-    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=20",
+    "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=20",
     {
       headers: {
         Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
@@ -41,6 +40,48 @@ spotifyController.getTopTracks = async (req, res, next) => {
   )
     .then((res) => res.json())
     .then((data) => {
+      console.log("GET TOP ARTISTS ", data.items[0])
+      const genres = [];
+      const ids = [];
+      const names = [];
+      const genreObj = {};
+      for (let i = 0; i < data.items.length; i++) {
+        const {genres: artistGenres, name, id} = data.items[i]
+        genres.push(...artistGenres)
+        ids.push(id)
+        names.push(name)
+      }
+      for (let i of genres) {
+        if (!genreObj[i]) {genreObj[i] = 1}
+        else {genreObj[i]++}
+      }
+      const top5Genres = Object.entries(genreObj).sort(([,a], [,b]) => b-a).slice(0,5).map(([key]) => key)
+      res.locals.top5Genres = top5Genres;
+      res.locals.topArtistsData = data.items;
+      return next();
+    });
+};
+spotifyController.getTopTracks = async (req, res, next) => {
+  fetch(
+    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5",
+    {
+      headers: {
+        Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
+      },
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      const seed_tracks = []
+      const seed_artists = []
+      //console.log("in top tracks ", data.items[0].album)
+      for (let i = 0; i < data.items.length; i++) {
+        seed_tracks.push(data.items[i].album.id)
+        seed_artists.push(data.items[i].album.artists[0].id)
+      }
+      console.log(seed_artists, seed_tracks)
+      res.locals.seedTracks = seed_tracks;
+      res.locals.seedArtists = seed_artists
       res.locals.topTrackData = data.items;
       return next();
     });
@@ -54,7 +95,6 @@ spotifyController.playTrack = async (req, res, next) => {
     const uri = "spotify:track:" + trackUri;
     console.log("DEVICE HERE IN PLAYTRACK ", res.locals.nookifyDeviceId)
     console.log("ID HER EIN PLAYTRACK ",res.locals.nookifyDeviceId)
-    const url = `https://api.spotify.com/v1/me/player/play`;
     const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
       method: "PUT",
       headers: {
@@ -73,15 +113,39 @@ spotifyController.playTrack = async (req, res, next) => {
       console.error("Error playing track:", response.statusText);
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
-      // Handle the error as needed
     }
+
   } catch (error) {
     console.error("Error in fetch request:", error);
-    // Handle the error as needed
+
   }
 
   return next();
 };
+spotifyController.recommendations = async (req, res, next) => {
+  const seed_tracks = res.locals.seedTracks
+  const seed_artists = res.locals.seedArtists
+  console.log(res.locals.top5Genres)
+  const seed_genres = res.locals.top5Genres.join(",")
+  const {danceability, target_popuarity} = req.body;
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const response = await fetch(`https://api.spotify.com/v1/me/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}`)
+    if (!response.ok) {
+      console.error("Error transfer playback:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    const recommendations = await response.json()
+    console.log(recommendations)
+    res.locals.recommendationsData = recommendations
+    return next()
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
 spotifyController.transferPlayback = async (req, res, next) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
