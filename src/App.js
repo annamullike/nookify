@@ -11,9 +11,13 @@ import Sidebar from "./components/Search/Sidebar";
 import SdkPlayer from "./components/SdkPlayer/SdkPlayer";
 import RightSidebar from "./components/RightSidebar/RightSidebar";
 import TopArtistsButton from "./components/TopArtists/TopArtistsButton";
+import RecommendationsButton from "./components/Recommendations/RecommendationsButton";
 function App() {
   // const [images, setImages] = useState([]);
   // const [names, setNames] = useState([]);
+  const [recNames, setRecNames] = useState("")
+  const [recIds, setRecIds] = useState("")
+  const [recArtists, setRecArtists] = useState("")
   const [topImages, setTopImages] = useState([]);
   const [topNames, setTopNames] = useState([]);
   const [idT, setIdTop] = useState([]);
@@ -41,6 +45,7 @@ function App() {
   return (
     <div>
       <Navbar />
+      <RecommendationsButton setRecNames={setRecNames} setRecIds={setRecIds} setRecArtists={setRecArtists} />
       {/* <button onClick={transfer}>transfer playback here</button>
       <button onClick={getDevice}>DEVICE HERE</button> */}
       {/* <button
@@ -71,6 +76,7 @@ function App() {
         ) : (
           <p></p>
         )}
+        
       </div>
       
       <Sidebar />

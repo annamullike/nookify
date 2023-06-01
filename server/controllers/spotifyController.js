@@ -136,7 +136,7 @@ spotifyController.recommendations = async (req, res, next) => {
     const nums2 = [2,2,1]
     const seed_tracks = res.locals.seedTracks.slice(num,num+nums2[Math.floor(Math.random()*nums.length)]).join(",");
     const seed_artists = res.locals.seedArtists.slice(num,num+nums2[Math.floor(Math.random()*nums.length)]).join(",");
-    const seed_genres = res.locals.top5Genres.slice(num,num+nums2[Math.floor(Math.random()*nums.length)]).join(",").replaceAll(" ","%20")
+    const seed_genres = res.locals.top5Genres.slice(0,5).join(",").replaceAll(" ","%20")
     console.log("SEED artists ", seed_artists)
     console.log("seed tracks", seed_tracks)
     //console.log("genre ", seed_genres, " artists ", seed_artists, "tracks ", seed_tracks)
@@ -159,8 +159,11 @@ spotifyController.recommendations = async (req, res, next) => {
     const recommendations = await response.json();
     console.log(recommendations);
     res.locals.recommendationsData = recommendations.tracks;
-    const songTitles = recommendations.tracks.map(obj => obj.album.name)
-    console.log("SONG TITLES HERE ", songTitles)
+    res.locals.trackTitleData = recommendations.tracks.map(obj => obj.name)
+    res.locals.titleIdData = recommendations.tracks.map(obj => obj.id)
+    res.locals.artistNamesData = recommendations.tracks.map(obj => obj.album.artists[0].name)
+    // console.log("ARTISTS HERE ", artistNames)
+    // console.log("SONG TITLES HERE ", songTitles)
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);
