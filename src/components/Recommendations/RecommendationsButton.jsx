@@ -9,7 +9,8 @@ function RecommendationsButton(props) {
         console.log(data);
         props.setRecNames(data.names)
         props.setRecIds(data.ids)
-        props.setRecArtists(data.artists)
+        // props.setRecArtists(data.artists)
+        props.setRecSrc(data.src)
       });
   };
   return <div onClick={recsButton}>Get Recommendations here</div>;

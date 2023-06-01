@@ -159,10 +159,12 @@ spotifyController.recommendations = async (req, res, next) => {
     const recommendations = await response.json();
     console.log(recommendations);
     res.locals.recommendationsData = recommendations.tracks;
+    res.locals.imgSrc = recommendations.tracks.map(obj => obj.album.images[0].url)
     res.locals.trackTitleData = recommendations.tracks.map(obj => obj.name)
     res.locals.titleIdData = recommendations.tracks.map(obj => obj.id)
     res.locals.artistNamesData = recommendations.tracks.map(obj => obj.album.artists[0].name)
     // console.log("ARTISTS HERE ", artistNames)
+    console.log()
     // console.log("SONG TITLES HERE ", songTitles)
     return next();
   } catch (error) {

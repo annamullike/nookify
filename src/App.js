@@ -15,9 +15,9 @@ import RecommendationsButton from "./components/Recommendations/RecommendationsB
 function App() {
   // const [images, setImages] = useState([]);
   // const [names, setNames] = useState([]);
-  const [recNames, setRecNames] = useState("")
-  const [recIds, setRecIds] = useState("")
-  const [recArtists, setRecArtists] = useState("")
+  const [recSrc, setRecSrc] = useState([])
+  const [recNames, setRecNames] = useState([])
+  const [recIds, setRecIds] = useState([])
   const [topImages, setTopImages] = useState([]);
   const [topNames, setTopNames] = useState([]);
   const [idT, setIdTop] = useState([]);
@@ -45,7 +45,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <RecommendationsButton setRecNames={setRecNames} setRecIds={setRecIds} setRecArtists={setRecArtists} />
+      <RecommendationsButton setRecSrc={setRecSrc} setRecNames={setRecNames} setRecIds={setRecIds}  />
       {/* <button onClick={transfer}>transfer playback here</button>
       <button onClick={getDevice}>DEVICE HERE</button> */}
       {/* <button
@@ -76,7 +76,20 @@ function App() {
         ) : (
           <p></p>
         )}
-        
+        {recNames.length > 0 ? (
+          <div className="topContainer">
+            {recNames.map((name, index) => (
+              <Card
+                title={name}
+                src={recSrc[index]}
+                id={recIds[index]}
+                key={index}
+              />
+            ))}
+          </div>
+        ) : (
+          <p></p>
+        )}
       </div>
       
       <Sidebar />
