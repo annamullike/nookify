@@ -1,6 +1,8 @@
 import React from "react";
-import "../assets/styles.scss";
-import froggy from "../assets/froggy2.png";
+// import "../assets/styles.scss";
+// import froggy from "../assets/froggy2.png";
+import froggy from "../../assets/froggy2.png";
+import styles from "./Card.module.scss"
 function Card(props) {
   const { title, src, id } = props;
   const like = () => {
@@ -14,6 +16,8 @@ function Card(props) {
       }),
     });
   }
+  
+  
   const play = () => {
     fetch("http://localhost:5000/api/spotify/playtrack", {
       method: "POST",
@@ -35,7 +39,7 @@ function Card(props) {
   };
   return (
     <div
-      className="card"
+      className={styles.card}
       style={{
         backgroundImage: `url(${froggy})`,
         backgroundPosition: "center ",
@@ -44,7 +48,7 @@ function Card(props) {
         height: "490px",
       }}
     >
-      <div className="cardContainer">
+      <div className={styles.cardContainer}>
         <h3>{title}</h3>
         <img src={src} />
         <div><a onClick={play}>
@@ -53,14 +57,14 @@ function Card(props) {
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-play-fill"
+            className="bi bi-play-fill"
             viewBox="0 0 16 16"
           >
             <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
           </svg>
         </a>
-        <a onClick={like}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        <a onClick={like}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
+  <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
 </svg></a></div>
         
       </div>

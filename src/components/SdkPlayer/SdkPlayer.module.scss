@@ -1,0 +1,47 @@
+$c1: #9dffb0;
+$c2: #81f1f7;
+$c3: #ffffaa;
+$c4: #c48d3f;
+$c5: #fff563;
+
+
+.left {
+    float: left;
+}
+.right  {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.currentTrack {
+  font-size: 40px;
+  
+}
+.currentArtist {
+  font-size: 20px
+}
+.playerContent {
+  display: flex;
+}
+.player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 500px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: $c3;
+    padding: 20px;
+    .player-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > a {
+        margin: 20px;
+      }
+    }
+  }

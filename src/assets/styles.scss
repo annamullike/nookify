@@ -8,6 +8,7 @@ body {
   color: rgb(69, 67, 67);
   background-color: $c2;
 }
+
 .searchResults::-webkit-scrollbar {
   width: 8px; /* Adjust the width of the scrollbar */
 }
@@ -25,41 +26,12 @@ body {
   padding: 0 10px 0 10px;
   //background-color: $c3;
   max-width: 400px;
-  max-height: 500px;
+  max-height: 90%;
 
   .searchResults::-webkit-scrollbar {
     width: 8px; /* Adjust the width of the scrollbar */
   }
   overflow-x: hidden;
-  .search {
-    
-    justify-content: center;
-    
-  }
-  .searchResultsContainer {
-    
-    border-radius: 10px;
-    background-color: rgb(237, 242, 243);
-    >img {
-      margin: auto;
-    }
-    > :hover {
-      transition: 0.2s;
-      cursor: pointer;
-    }
-    display: flex;
-    padding: 20px;
-  }
-  .info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    margin-left: 15px;
-    > h3 {
-      margin: 0;
-      color: rgb(69, 67, 67);
-    }
-  }
 }
 .navbar {
   justify-content: center;
@@ -90,38 +62,19 @@ body {
   margin: auto;
   position: relative;
 }
-.player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 500px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  background-color: $c3;
-  padding: 20px;
-  .player-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > a {
-      margin: 20px;
-    }
-  }
-}
+
 a {
   cursor: pointer;
 }
 .contentBox {
   width: 1200px;
   margin: auto;
-  .searchContainer {
-    justify-content: center;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 3 columns */
-    gap: 60px; /* gap between cards */
-  }
+  // .searchContainer {
+  //   justify-content: center;
+  //   display: grid;
+  //   grid-template-columns: repeat(4, 1fr); /* 3 columns */
+  //   gap: 60px; /* gap between cards */
+  // }
   .topContainer {
     justify-content: center;
     display: grid;
@@ -129,21 +82,7 @@ a {
     gap: 60px; /* gap between cards */
   }
 }
-.card {
-  width: 400px;
-  height: 500px;
-  text-align: center;
-  justify-content: center;
-  .cardContainer {
-    margin-top: 70px;
-  }
-  h1 {
-    text-align: center;
-  }
-  img {
-    margin: auto;
-  }
-}
+
 .input {
   border: 2px;
   border-radius: 5px;
