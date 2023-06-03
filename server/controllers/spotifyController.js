@@ -163,6 +163,7 @@ spotifyController.recommendations = async (req, res, next) => {
     res.locals.trackTitleData = recommendations.tracks.map(obj => obj.name)
     res.locals.titleIdData = recommendations.tracks.map(obj => obj.id)
     res.locals.artistNamesData = recommendations.tracks.map(obj => obj.album.artists[0].name)
+    console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData)
     // console.log("ARTISTS HERE ", artistNames)
     console.log()
     // console.log("SONG TITLES HERE ", songTitles)

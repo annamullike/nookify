@@ -51,6 +51,6 @@ router.get("/transfer", spotifyController.refreshToken, spotifyController.getDev
   return res.status(200)
 })
 router.get("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
-  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.trackIdData, artists: res.locals.artistNamesData})
+  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
 })
 module.exports = router;
