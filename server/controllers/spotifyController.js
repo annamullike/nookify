@@ -3,8 +3,7 @@ const redirectUri = "http://localhost:5000/api/spotify/callback";
 const clientId = "dbd6bdd2c40c42c696176d6bd1d108d5";
 //const clientSecret = "ab2e7731a06541af972c3a1e75f9d99b";
 const fetch = require("node-fetch");
-// const dotenv = require("dotenv")
-// dotenv.config();
+
 require("dotenv").config({ path: "config.env" });
 const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.CLIENT_SECRET,
@@ -13,8 +12,6 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const spotifyController = {};
-//const accessToken = spotifyApi["_credentials"].accessToken || null;
-//const refreshToken = spotifyApi["_credentials"].refreshToken || null;
 spotifyController.search = async (req, res, next) => {
   const { query } = req.params;
   fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`, {
@@ -57,11 +54,11 @@ spotifyController.getTopArtists = async (req, res, next) => {
           genreObj[i]++;
         }
       }
-      const top5Genres = Object.entries(genreObj)
+      res.locals.top5Genres = Object.entries(genreObj)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 5)
         .map(([key]) => key);
-      res.locals.top5Genres = top5Genres;
+      // res.locals.top5Genres = top5Genres;
       res.locals.topArtistsData = data.items;
       console.log("MADE IT IN TOP ARTISTS")
       return next();
@@ -69,7 +66,7 @@ spotifyController.getTopArtists = async (req, res, next) => {
 };
 spotifyController.getTopTracks = async (req, res, next) => {
   fetch(
-    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=25",
+    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1",
     {
       headers: {
         Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
@@ -86,9 +83,13 @@ spotifyController.getTopTracks = async (req, res, next) => {
         seed_artists.push(data.items[i].album.artists[0].id);
       }
 
-      res.locals.seedTracks = seed_tracks;
-      res.locals.seedArtists = seed_artists;
+      res.locals.seedTracks = data.items.map(obj => obj.id);
+      res.locals.topName = data.items.map(obj => obj.name);
+      res.locals.seedArtists = data.items.map(obj => obj.album.artists[0].id);
+      res.locals.topImgSrc = data.items.map(obj => obj.album.images[1].url)
       res.locals.topTrackData = data.items;
+      res.locals.testingIdData = data.items.map(obj => obj.album.id)
+      console.log(res.locals.seedTracks)
       console.log("MADE IT IN TOP TRACKS")
       return next();
     });
@@ -130,18 +131,14 @@ spotifyController.playTrack = async (req, res, next) => {
 spotifyController.recommendations = async (req, res, next) => {
   const { danceability, target_popuarity } = req.body;
   try {
-    console.log("MADE IT IN THE RECOMMENDATIONS")
     const nums = [Math.floor(Math.random()*22),Math.floor(Math.random()*22),Math.floor(Math.random()*22)]
     const num = nums[Math.floor(Math.random()*nums.length)]
     const nums2 = [2,2,1]
     const seed_tracks = res.locals.seedTracks.slice(num,num+nums2[Math.floor(Math.random()*nums.length)]).join(",");
     const seed_artists = res.locals.seedArtists.slice(num,num+nums2[Math.floor(Math.random()*nums.length)]).join(",");
     const seed_genres = res.locals.top5Genres.slice(0,5).join(",").replaceAll(" ","%20")
-    console.log("SEED artists ", seed_artists)
-    console.log("seed tracks", seed_tracks)
-    //console.log("genre ", seed_genres, " artists ", seed_artists, "tracks ", seed_tracks)
-    const uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=5`
-    console.log(uri)
+    const uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=20`
+
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
@@ -157,9 +154,8 @@ spotifyController.recommendations = async (req, res, next) => {
       console.error("Response body:", responseBody);
     }
     const recommendations = await response.json();
-    console.log(recommendations);
     res.locals.recommendationsData = recommendations.tracks;
-    res.locals.imgSrc = recommendations.tracks.map(obj => obj.album.images[0].url)
+    res.locals.imgSrc = recommendations.tracks.map(obj => obj.album.images[1].url)
     res.locals.trackTitleData = recommendations.tracks.map(obj => obj.name)
     res.locals.titleIdData = recommendations.tracks.map(obj => obj.id)
     res.locals.artistNamesData = recommendations.tracks.map(obj => obj.album.artists[0].name)
@@ -410,110 +406,5 @@ spotifyController.playCurrent = async (req, res, next) => {
   return next();
 };
 
-// spotifyController.playTrack = async (req, res, next) => {
-
-//   const data = await spotifyApi.refreshAccessToken();
-//     console.log("1111", spotifyApi["_credentials"].accessToken)
-//     req.accessToken = data.body["access_token"];
-//     spotifyApi.setAccessToken(data.body["access_token"]);
-//     req.testToken = data.body["access_token"]
-
-//   const { trackUri } = req.body;
-//   const uri = "spotify:track:" + trackUri;
-//   //const test = req.accessToken
-//   const test = req.testToken
-//   console.log("ok..........", test === spotifyApi["_credentials"].accessToken)
-//   fetch(`http://api.spotify.com/v1/me/player/play`, {
-//     method: "PUT",
-//     headers: {
-//       Authorization: `Bearer ${test}`,
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       "uris": [uri],
-//       "position_ms": 0,
-//       "market": "US"
-//     }),
-//   })
-//     .then(async (response) => {
-//       if (!response.ok) {
-//         const hi = "hi"
-//         console.error("Error playing track:", response.statusText);
-//         console.error("Response object:", response);
-//         const responseBody = await response.json();
-//         console.error("Response body:", responseBody);
-//         console.log(test)
-
-//       }
-//     })
-//     .catch((error) => {
-//       console.error("Error in fetch request:", error);
-//     });
-//   return next();
-// };
 
 module.exports = spotifyController;
-/*
-const checkAccessToken = (req, res, next) => {
-  const expirationTime = spotifyApi["_credentials"].expires_in;
-  const currentTime = Math.floor(new Date().getTime() / 1000);
-
-  if (currentTime > expirationTime) {
-    // Access token has expired, refresh it
-    spotifyApi.refreshAccessToken().then(
-      function(data) {
-        console.log('The access token has been refreshed! ');
-        spotifyApi.setAccessToken(data.body['access_token']);
-        req.spotifyAccessToken = data.body['access_token'];
-        return next();
-      },
-      function(err) {
-        console.log('Could not refresh access token', err);
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
-    );
-  } else {
-    // Access token is still valid, pass it to the next handler
-    req.spotifyAccessToken = spotifyApi["_credentials"].accessToken;
-    return next();
-  }
-};
- */ // spotifyController.refreshToken = async (req,res,next) => {
-//   spotifyApi.refreshAccessToken().then(
-//     function(data) {
-//       //console.log('The access token has been refreshed! ');
-//       spotifyApi.setAccessToken(data.body['access_token']);
-//       return next();
-//     },
-//     function(err) {
-//       console.log('Could not refresh access token', err);
-//     }
-//   );
-// }
-// const data = await spotifyApi.refreshAccessToken();
-// const accessToken = data.body["access_token"];
-// spotifyApi.setAccessToken(accessToken);
-// const { track } = req.body;
-// fetch(`https://api.spotify.com/v1/me/player/devices`, {
-//   headers: {
-//     Authorization: "Bearer " + accessToken,
-//   },
-// })
-//   .then((response) => response.json())
-//   .then((data) => {
-//     // Filter the devices by name
-//     console.log("DEVICES HERE ", data)
-//     const desiredDevice = data.devices.find(
-//       (device) => device.name === "Nookify Web Application"
-//     );
-//     if (desiredDevice) {
-//       const desiredDeviceId = desiredDevice.id;
-//       res.locals.deviceId = desiredDeviceId
-//       return next()
-//     } else {
-//       console.log("Device not found");
-//     }
-//   })
-//   .catch((error) => {
-//     console.error("Error retrieving devices:", error);
-//   });

@@ -5,12 +5,11 @@ const spotifyController = require("../controllers/spotifyController");
 
 
 router.get("/callback", spotifyController.getAuthCode,(req,res)=> {
-    console.log(req.query)
     res.status(200).redirect('http://localhost:3000');
   })
 
 router.get("/toptracks", spotifyController.getTopTracks, (req, res) => {
-  return res.status(200).json({data: res.locals.topTrackData})
+  return res.status(200).json({data: res.locals.topTrackData,name: res.locals.topName, src: res.locals.topImgSrc, id: res.locals.seedTracks})
 })
 router.get("/topartists", spotifyController.getTopArtists, (req, res) => {
   return res.status(200).json({data: res.locals.topArtistsData})
