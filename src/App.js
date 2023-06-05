@@ -45,6 +45,7 @@ function App() {
   return (
     <div>
       <Navbar />
+      
       <RecommendationsButton setRecSrc={setRecSrc} setRecNames={setRecNames} setRecIds={setRecIds}  />
       {/* <button onClick={transfer}>transfer playback here</button>
       <button onClick={getDevice}>DEVICE HERE</button> */}
@@ -76,24 +77,15 @@ function App() {
         ) : (
           <p></p>
         )}
-        {recNames.length > 0 ? (
-          <div className="topContainer">
-            {recNames.map((name, index) => (
-              <Card
-                title={name}
-                src={recSrc[index]}
-                id={recIds[index]}
-                key={index}
-              />
-            ))}
-          </div>
-        ) : (
-          <p></p>
-        )}
+        
       </div>
       
       <Sidebar />
-      <RightSidebar/>
+      <RightSidebar
+        recNames={recNames}
+        recSrc={recSrc}
+        recIds={recIds}
+      />
     </div>
   );
 }

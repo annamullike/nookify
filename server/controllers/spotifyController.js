@@ -66,7 +66,7 @@ spotifyController.getTopArtists = async (req, res, next) => {
 };
 spotifyController.getTopTracks = async (req, res, next) => {
   fetch(
-    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1",
+    "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=20",
     {
       headers: {
         Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
