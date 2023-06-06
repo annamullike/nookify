@@ -1,7 +1,6 @@
 const SpotifyWebApi = require("spotify-web-api-node");
 const redirectUri = "http://localhost:5000/api/spotify/callback";
 const clientId = "dbd6bdd2c40c42c696176d6bd1d108d5";
-//const clientSecret = "ab2e7731a06541af972c3a1e75f9d99b";
 const fetch = require("node-fetch");
 
 require("dotenv").config({ path: "config.env" });
