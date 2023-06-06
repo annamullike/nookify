@@ -1,4 +1,3 @@
-
 import AuthButton from "./components/AuthButton";
 import SearchButton from "./components/Search/SearchButton";
 import React, { useState, useEffect } from "react";
@@ -12,12 +11,17 @@ import SdkPlayer from "./components/SdkPlayer/SdkPlayer";
 import RightSidebar from "./components/RightSidebar/RightSidebar";
 import TopArtistsButton from "./components/TopArtists/TopArtistsButton";
 import RecommendationsButton from "./components/Recommendations/RecommendationsButton";
+import { useDispatch, useSelector} from "react-redux";
+import { updateRecommendations } from "./redux/recommendationsReducer";
 function App() {
-  // const [images, setImages] = useState([]);
-  // const [names, setNames] = useState([]);
-  const [recSrc, setRecSrc] = useState([])
-  const [recNames, setRecNames] = useState([])
-  const [recIds, setRecIds] = useState([])
+  // const dispatch = useDispatch();
+  // const [recSrc, setRecSrc] = useState([])
+  // const [recNames, setRecNames] = useState([])
+  // const [recIds, setRecIds] = useState([])
+  const dispatch = useDispatch();
+  const recNames = useSelector((state) => state.recommendations.recNames);
+  const recSrc = useSelector((state) => state.recommendations.recSrc);
+  const recIds = useSelector((state) => state.recommendations.recIds);
   const [topImages, setTopImages] = useState([]);
   const [topNames, setTopNames] = useState([]);
   const [idT, setIdTop] = useState([]);
@@ -27,9 +31,10 @@ function App() {
     fetch("http://localhost:5000/api/spotify/transfer")
       .then((res) => res.json())
       .then((data) => {
-        console.log("transfered playback devices")
-      })
-  }
+        console.log("transfered playback devices");
+      });
+  };
+ 
   useEffect(() => {
     fetch("http://localhost:5000/api/spotify/accesstoken")
       .then((res) => res.json())
@@ -39,14 +44,13 @@ function App() {
       });
   }, []);
   const getDevice = () => {
-    fetch("http://localhost:5000/api/spotify/getdevice")
-      
+    fetch("http://localhost:5000/api/spotify/getdevice");
   };
   return (
     <div>
       <Navbar />
-      
-      <RecommendationsButton setRecSrc={setRecSrc} setRecNames={setRecNames} setRecIds={setRecIds}  />
+
+      {/* <RecommendationsButton setRecSrc={setRecSrc} setRecNames={setRecNames} setRecIds={setRecIds}  /> */}
       {/* <button onClick={transfer}>transfer playback here</button>
       <button onClick={getDevice}>DEVICE HERE</button> */}
       {/* <button
@@ -59,7 +63,7 @@ function App() {
         setTopNames={setTopNames}
         setIdTop={setIdTop}
       />
-      <TopArtistsButton/>
+      <TopArtistsButton />
       {token === "" ? <AuthButton /> : <SdkPlayer token={token} />}
       {/* <SearchButton setImages={setImages} setNames={setNames} setIdSearch={setIdSearch} /> */}
       <div className="contentBox">
@@ -77,15 +81,26 @@ function App() {
         ) : (
           <p></p>
         )}
-        
+        {console.log("recNames:", recNames)}
+  
+        {recNames.length > 0 ? (
+          <div className="topContainer">
+            {recNames.map((name, index) => (
+              <Card
+                title={name}
+                src={recSrc[index]}
+                id={recIds[index]}
+                key={index}
+              />
+            ))}
+          </div>
+        ) : (
+          <p></p>
+        )}
       </div>
-      
+
       <Sidebar />
-      <RightSidebar
-        recNames={recNames}
-        recSrc={recSrc}
-        recIds={recIds}
-      />
+      <RightSidebar />
     </div>
   );
 }
