@@ -49,7 +49,10 @@ router.get("/getdevice", spotifyController.refreshToken, spotifyController.getDe
 router.get("/transfer", spotifyController.refreshToken, spotifyController.getDevice, spotifyController.transferPlayback, (req, res) => {
   return res.status(200)
 })
-router.get("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
+// router.get("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
+//   return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
+// })
+router.post("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
   return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
 })
 module.exports = router;

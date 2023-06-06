@@ -24,22 +24,42 @@
   transition: opacity 0.2s;
 }
 .slider:hover {
-    opacity: 1; /* Fully shown on mouse-over */
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04aa6d; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04aa6d; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+  h4 {
+    margin: 0;
+    padding: 0;
   }
+  #left {
+    margin-right: auto;
+  }
+  #right {
+    margin-left: auto;
+  }
+}
+h3 {
+  margin: 0;
+  padding: 18px 0 0 0;
+}
   
-  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Override default look */
-    appearance: none;
-    width: 25px; /* Set a specific slider handle width */
-    height: 25px; /* Slider handle height */
-    background: #04AA6D; /* Green background */
-    cursor: pointer; /* Cursor on hover */
-  }
-  
-  .slider::-moz-range-thumb {
-    width: 25px; /* Set a specific slider handle width */
-    height: 25px; /* Slider handle height */
-    background: #04AA6D; /* Green background */
-    cursor: pointer; /* Cursor on hover */
-  }

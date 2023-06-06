@@ -1,10 +1,9 @@
                                                                              
 const { queryAllByAltText } = require("@testing-library/react");
-//import { Configuration, OpenAIApi } from "openai";
 const { Configuration, OpenAIApi } = require("openai");
-
+require("dotenv").config({ path: "config.env" });
 const aiController = {};
-const apikey = "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";
+const apikey = process.env.API_KEY;
 aiController.config = async (req, res, next) => {
   const catchphrase = res.locals.catchphraseData;
 
@@ -22,4 +21,3 @@ aiController.config = async (req, res, next) => {
   return next();
 };
 module.exports = aiController;
-//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
