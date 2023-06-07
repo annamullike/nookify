@@ -3,10 +3,14 @@ $c2: #81f1f7;
 $c3: #ffffaa;
 $c4: #c48d3f;
 $c5: #fff563;
-
+@font-face {
+  font-family: ACNHFont;
+  src: url(../assets/VT323-Regular.ttf) format("truetype");
+}
 body {
   color: rgb(69, 67, 67);
   background-color: $c2;
+  font-family: ACNHFont, sans-serif;
 }
 
 .searchResults::-webkit-scrollbar {
@@ -67,7 +71,8 @@ a {
   cursor: pointer;
 }
 .contentBox {
-  width: 1200px;
+  width: 100%;
+  max-width: 1800px;
   margin: auto;
   // .searchContainer {
   //   justify-content: center;
@@ -75,11 +80,18 @@ a {
   //   grid-template-columns: repeat(4, 1fr); /* 3 columns */
   //   gap: 60px; /* gap between cards */
   // }
+  justify-content: center;
+  display: flex;
   .topContainer {
-    justify-content: center;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 3 columns */
-    gap: 60px; /* gap between cards */
+    
+    width: 2000px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:20px;
+    // justify-content: center;
+    // display: grid;
+    // grid-template-columns: repeat(4, 1fr);
+    // gap: 60px;
   }
 }
 
@@ -93,8 +105,12 @@ a {
 button {
   background-color: $c1;
   border-radius: 20px;
+  border: none;
   height: 40px;
   width: 200px;
+}
+button:hover {
+  cursor: pointer;
 }
 svg {
   color: $c4;

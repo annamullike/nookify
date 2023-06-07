@@ -7,6 +7,10 @@ import { updateRecQuery } from "../../redux/recQueriesReducer";
 import Card from "../Card/Card";
 import Slider from "./Slider";
 function RightSidebar(props) {
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
   // const [val, setVal] = useState(5);
   const dispatch = useDispatch();
   const valence = useSelector((state) => state.recQueries.valence)
@@ -17,11 +21,13 @@ function RightSidebar(props) {
   const recNames = useSelector((state) => state.recommendations.recNames);
   const recSrc = useSelector((state) => state.recommendations.recSrc);
   const recIds = useSelector((state) => state.recommendations.recIds);
+  const recArtist = useSelector((state)=> state.recommendations.recArtist)
   useEffect(() => {
-    console.log(danceability, instrumentalness, speechiness, popularity);
-  }, [danceability, instrumentalness, speechiness, popularity]);
+    console.log(danceability, instrumentalness, speechiness, popularity, valence);
+  }, [danceability, instrumentalness, speechiness, popularity, valence]);
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${sidebarVisible ? styles.visible : ""}`}>
+      <button className={styles.button} onClick={toggleSidebar}>Toggle</button>
       <div className={styles.content}>
         <h1>Get Personalized Music here</h1>
         <Slider
@@ -38,7 +44,7 @@ function RightSidebar(props) {
           }}
         />
         <Slider
-          query={"instr"}
+          query={"Instrumentalness"}
           leftInfo={"least instrum"}
           rightInfo={"Most instrum"}
           val={instrumentalness}
@@ -65,8 +71,8 @@ function RightSidebar(props) {
         />
         <Slider
           query={"Popularity"}
-          leftInfo={"least pop"}
-          rightInfo={"Most pop"}
+          leftInfo={"least popular"}
+          rightInfo={"Most popular"}
           val={popularity}
           change={(e) => {
             dispatch(
@@ -77,9 +83,9 @@ function RightSidebar(props) {
           }}
         />
         <Slider
-          query={"Valence"}
-          leftInfo={"least valence"}
-          rightInfo={"Most valence"}
+          query={"Positivity"}
+          leftInfo={"Least positive"}
+          rightInfo={"Most positive"}
           val={valence}
           change={(e) => {
             dispatch(
@@ -91,12 +97,13 @@ function RightSidebar(props) {
         />
         <input type="text" id="searchInput" placeholder="Enter country"/>
         <ul id="searchResults"></ul>
-        <RecommendationsButton
+        <div className={styles.recButton}><RecommendationsButton
           recSrc={recSrc}
           recNames={recNames}
           recIds={recIds}
-        />
-        <button onClick={()=>console.log("DANCEY ",danceability, instrumentalness)}>check redux vars</button>
+          recArtist={recArtist}
+        /></div>
+        
       </div>
     </div>
   );

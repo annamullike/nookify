@@ -25,6 +25,7 @@ spotifyController.search = async (req, res, next) => {
       return next();
     });
 };
+
 spotifyController.getTopArtists = async (req, res, next) => {
   fetch(
     "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=25",
@@ -76,12 +77,11 @@ spotifyController.getTopTracks = async (req, res, next) => {
     .then((data) => {
       const seed_tracks = [];
       const seed_artists = [];
-      //console.log("in top tracks ", data.items[0].album)
       for (let i = 0; i < data.items.length; i++) {
         seed_tracks.push(data.items[i].album.id);
         seed_artists.push(data.items[i].album.artists[0].id);
       }
-
+      res.locals.artistNames = data.items.map((obj) =>obj.album.artists[0].name)
       res.locals.seedTracks = data.items.map((obj) => obj.id);
       res.locals.topName = data.items.map((obj) => obj.name);
       res.locals.seedArtists = data.items.map((obj) => obj.album.artists[0].id);
@@ -146,16 +146,16 @@ spotifyController.recommendations = async (req, res, next) => {
       .slice(0, 5)
       .join(",")
       .replaceAll(" ", "%20");
-    let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=20`;
+    let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=12`;
     // &target_popularity=${popularity}&target_instrumentalness=${instrumentalness}&target_speechiness=${speechiness}&target_danceability=${danceability}&target_valence=${valence}`
-    if (popularity !== undefined) uri += `&target_popularity=${popularity}`;
+    if (popularity !== undefined) uri += `&target_popularity=${popularity*.1}`;
     if (danceability !== undefined)
-      uri += `&target_danceability=${danceability}`;
-    if (speechiness !== undefined) uri += `&target_speechiness=${speechiness}`;
-    if (instrumentalness === undefined)
-      uri += `&target_instrumentallness=${instrumentalness}`;
-    if (valence !== undefined) uri += `&target_valence=${valence}`;
-
+      uri += `&target_danceability=${danceability*.1}`;
+    if (speechiness !== undefined) uri += `&target_speechiness=${speechiness*.1}`;
+    if (instrumentalness !== undefined)
+      uri += `&target_instrumentalness=${instrumentalness*.1}`;
+    if (valence !== undefined) uri += `&target_valence=${valence*.1}`;
+    console.log("url here, ", uri )
     const response = await fetch(uri, {
       method: "GET",
       headers: {
@@ -172,12 +172,14 @@ spotifyController.recommendations = async (req, res, next) => {
     res.locals.imgSrc = recommendations.tracks.map(
       (obj) => obj.album.images[1].url
     );
+    console.log("data here in recs ", recommendations.artists)
     res.locals.trackTitleData = recommendations.tracks.map((obj) => obj.name);
     res.locals.titleIdData = recommendations.tracks.map((obj) => obj.id);
     res.locals.artistNamesData = recommendations.tracks.map(
       (obj) => obj.album.artists[0].name
     );
-    console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData);
+    // console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData);
+    console.log("ARTISTS NAMES ", res.locals.artistNamesData)
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);

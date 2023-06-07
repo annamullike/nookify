@@ -17,9 +17,11 @@ function App() {
   const recNames = useSelector((state) => state.recommendations.recNames);
   const recSrc = useSelector((state) => state.recommendations.recSrc);
   const recIds = useSelector((state) => state.recommendations.recIds);
+  const recArtist = useSelector((state)=> state.recommendations.recArtist)
   const [topImages, setTopImages] = useState([]);
   const [topNames, setTopNames] = useState([]);
   const [idT, setIdTop] = useState([]);
+  const [topArtist, setTopArtist] = useState([])
   const [token, setToken] = useState("");
 
 
@@ -40,6 +42,7 @@ function App() {
         setTopImages={setTopImages}
         setTopNames={setTopNames}
         setIdTop={setIdTop}
+        setTopArtist={setTopArtist}
       />
       <TopArtistsButton />
       {token === "" ? <AuthButton /> : <SdkPlayer token={token} />}
@@ -53,6 +56,7 @@ function App() {
                 src={recSrc[index]}
                 id={recIds[index]}
                 key={index}
+                artist={recArtist[index]}
               />
             ))}
           </div>
@@ -67,6 +71,7 @@ function App() {
                 src={topImages[index]}
                 id={idT[index]}
                 key={index}
+                artist={topArtist[index]}
               />
             ))}
           </div>

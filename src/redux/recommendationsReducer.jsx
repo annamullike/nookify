@@ -6,12 +6,14 @@ export const recommendationsSlice = createSlice({
         recNames: [],
         recIds: [],
         recSrc: [],
+        recArtist: [],
     },
     reducers: {
         updateRecommendations: (state, action) => {
             state.recNames = action.payload.recNames;
             state.recIds = action.payload.recIds;
             state.recSrc = action.payload.recSrc;
+            state.recArtist = action.payload.recArtist
         }
     }
 })

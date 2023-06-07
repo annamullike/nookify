@@ -8,12 +8,21 @@ $c5: #fff563;
   margin: 50px;
   bottom: 0;
   right: 0;
-  background-color: white;
+  background-color: $c3;
   width: 500px;
   height: 90%;
   padding: 15px;
+  transform: translateX(70%);
+  transition: transform 0.3s ease-in-out;
 }
-
+.container.visible {
+  transform: translateX(0); 
+}
+.recButton {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
 .slidecontainer {
   width: 100%;
 }

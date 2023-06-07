@@ -9,7 +9,7 @@ router.get("/callback", spotifyController.getAuthCode,(req,res)=> {
   })
 
 router.get("/toptracks", spotifyController.getTopTracks, (req, res) => {
-  return res.status(200).json({data: res.locals.topTrackData,name: res.locals.topName, src: res.locals.topImgSrc, id: res.locals.seedTracks})
+  return res.status(200).json({data: res.locals.topTrackData,name: res.locals.topName, src: res.locals.topImgSrc, id: res.locals.seedTracks, artist: res.locals.artistNamesData})
 })
 router.get("/topartists", spotifyController.getTopArtists, (req, res) => {
   return res.status(200).json({data: res.locals.topArtistsData})
@@ -53,6 +53,6 @@ router.get("/transfer", spotifyController.refreshToken, spotifyController.getDev
 //   return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
 // })
 router.post("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
-  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
+  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artist: res.locals.artistNamesData})
 })
 module.exports = router;
