@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styles from "./RightSidebar.module.scss";
+import { useDispatch } from "react-redux";
 function Slider(props) {
-  const [val, setVal] = useState(5);
+  const [val, setVal] = useState(0);
+  const dispatch = useDispatch()
+//   const change = (e) => {
+//     dispatch(setValue(parseInt(e.target.value)))
+//   }
   return (
     <div className={styles.sliderContainer}>
       <h3>{props.query}</h3>
@@ -11,11 +16,11 @@ function Slider(props) {
       </div>
 
       <input
-        onChange={(e) => setVal(parseInt(e.target.value))}
+        onChange={props.change}
         type="range"
         min="0"
         max="10"
-        value={val}
+        value={props.val}
         className={styles.slider}
         id="myRange"
       />

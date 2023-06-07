@@ -25,8 +25,6 @@ function SearchButton(props) {
           setInput(e.target.value);
         }}
       ></input>
-
-      {/* <a onClick={getSearchData}>Search</a> */}
       {input && searchData.data && (
         <div className={"searchResults"}>
           {searchData.data.map((result, index) => (

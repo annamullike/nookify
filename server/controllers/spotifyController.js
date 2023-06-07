@@ -59,7 +59,7 @@ spotifyController.getTopArtists = async (req, res, next) => {
         .map(([key]) => key);
       // res.locals.top5Genres = top5Genres;
       res.locals.topArtistsData = data.items;
-      console.log("MADE IT IN TOP ARTISTS")
+      console.log("MADE IT IN TOP ARTISTS");
       return next();
     });
 };
@@ -82,14 +82,14 @@ spotifyController.getTopTracks = async (req, res, next) => {
         seed_artists.push(data.items[i].album.artists[0].id);
       }
 
-      res.locals.seedTracks = data.items.map(obj => obj.id);
-      res.locals.topName = data.items.map(obj => obj.name);
-      res.locals.seedArtists = data.items.map(obj => obj.album.artists[0].id);
-      res.locals.topImgSrc = data.items.map(obj => obj.album.images[1].url)
+      res.locals.seedTracks = data.items.map((obj) => obj.id);
+      res.locals.topName = data.items.map((obj) => obj.name);
+      res.locals.seedArtists = data.items.map((obj) => obj.album.artists[0].id);
+      res.locals.topImgSrc = data.items.map((obj) => obj.album.images[1].url);
       res.locals.topTrackData = data.items;
-      res.locals.testingIdData = data.items.map(obj => obj.album.id)
-      console.log(res.locals.seedTracks)
-      console.log("MADE IT IN TOP TRACKS")
+      res.locals.testingIdData = data.items.map((obj) => obj.album.id);
+      console.log(res.locals.seedTracks);
+      console.log("MADE IT IN TOP TRACKS");
       return next();
     });
 };
@@ -128,22 +128,39 @@ spotifyController.playTrack = async (req, res, next) => {
   return next();
 };
 spotifyController.recommendations = async (req, res, next) => {
-  const { danceability, target_popuarity } = req.body;
   try {
-    const nums = [Math.floor(Math.random()*22),Math.floor(Math.random()*22),Math.floor(Math.random()*22)]
-    const num = nums[Math.floor(Math.random()*nums.length)]
-    const seed_tracks = res.locals.seedTracks.slice(num,num+2).join(",");
-    const seed_artists = res.locals.seedArtists.slice(num,num+1).join(",");
-    const seed_genres = res.locals.top5Genres.slice(0,5).join(",").replaceAll(" ","%20")
-    const uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=20`
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
+    const nums = [
+      Math.floor(Math.random() * 22),
+      Math.floor(Math.random() * 22),
+      Math.floor(Math.random() * 22),
+    ];
+    const num = nums[Math.floor(Math.random() * nums.length)];
+    let { danceability, popularity, speechiness, instrumentalness, valence } =
+      req.body;
+    const seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
+    const seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
+    const seed_genres = res.locals.top5Genres
+      .slice(0, 5)
+      .join(",")
+      .replaceAll(" ", "%20");
+    let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=20`;
+    // &target_popularity=${popularity}&target_instrumentalness=${instrumentalness}&target_speechiness=${speechiness}&target_danceability=${danceability}&target_valence=${valence}`
+    if (popularity !== undefined) uri += `&target_popularity=${popularity}`;
+    if (danceability !== undefined)
+      uri += `&target_danceability=${danceability}`;
+    if (speechiness !== undefined) uri += `&target_speechiness=${speechiness}`;
+    if (instrumentalness === undefined)
+      uri += `&target_instrumentallness=${instrumentalness}`;
+    if (valence !== undefined) uri += `&target_valence=${valence}`;
+
     const response = await fetch(uri, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-      }
+      },
     });
     if (!response.ok) {
       console.error("Error transfer playback:", response.statusText);
@@ -152,11 +169,15 @@ spotifyController.recommendations = async (req, res, next) => {
     }
     const recommendations = await response.json();
     res.locals.recommendationsData = recommendations.tracks;
-    res.locals.imgSrc = recommendations.tracks.map(obj => obj.album.images[1].url)
-    res.locals.trackTitleData = recommendations.tracks.map(obj => obj.name)
-    res.locals.titleIdData = recommendations.tracks.map(obj => obj.id)
-    res.locals.artistNamesData = recommendations.tracks.map(obj => obj.album.artists[0].name)
-    console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData)
+    res.locals.imgSrc = recommendations.tracks.map(
+      (obj) => obj.album.images[1].url
+    );
+    res.locals.trackTitleData = recommendations.tracks.map((obj) => obj.name);
+    res.locals.titleIdData = recommendations.tracks.map((obj) => obj.id);
+    res.locals.artistNamesData = recommendations.tracks.map(
+      (obj) => obj.album.artists[0].name
+    );
+    console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData);
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);
@@ -399,6 +420,5 @@ spotifyController.playCurrent = async (req, res, next) => {
 
   return next();
 };
-
 
 module.exports = spotifyController;

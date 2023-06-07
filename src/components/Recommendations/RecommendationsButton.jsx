@@ -1,10 +1,13 @@
 import React, {useState} from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateRecommendations } from "../../redux/recommendationsReducer";
 
 function RecommendationsButton() {
   const dispatch = useDispatch();
-  const [danceabilitiy, setDanceabilitiy] = useState("")
+  const danceability = useSelector((state) => state.recQueries.danceability)
+  const instrumentalness = useSelector((state) =>  state.recQueries.instrumentalness)
+  const popularity = useSelector((state) =>  state.recQueries.popularity)
+  const speechiness = useSelector((state) =>  state.recQueries.speechiness)
   const recsButton = async () => {
     try {
       const response = await fetch(
@@ -13,11 +16,10 @@ function RecommendationsButton() {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({danceabilitiy: danceabilitiy})
+          body: JSON.stringify({danceability: danceability, instrumentalness: instrumentalness, speechiness: speechiness, popularity: popularity})
         }
       );
       const data = await response.json();
-      // console.log("data hereee ", data.names)
       dispatch(
         updateRecommendations({
           recNames: data.names,

@@ -1,6 +1,7 @@
 import React from "react";
 import AuthButton from "../AuthButton";
 import styles from "./Navbar.module.scss"
+import spotifylogo from "../../assets/Spotify_Logo_RGB_Green.png"
 // import "../assets/styles.scss";
 import { Link } from "react-router-dom";
 function Navbar() {
@@ -9,7 +10,9 @@ function Navbar() {
     <div>
       <div className={styles.navbar}>
         <div className={styles.container}>
-          <h2>Nook meiii</h2>
+<img src={spotifylogo} height={"40%"} alt="none"/>
+          <h2>Nook me</h2>
+          
           <div className={styles.links}>
             <ul>
               <li><AuthButton /></li>
