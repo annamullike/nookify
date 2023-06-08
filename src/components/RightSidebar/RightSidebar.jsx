@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./RightSidebar.module.scss";
 import { Dispatch } from "react";
 import RecommendationsButton from "../Recommendations/RecommendationsButton";
@@ -7,7 +7,10 @@ import { updateRecQuery } from "../../redux/recQueriesReducer";
 import Card from "../Card/Card";
 import Slider from "./Slider";
 import RadioButtons from "../RadioButtons.jsx/RadioButtons";
+import SearchForRec from "../Search/SearchForRec";
+import SongContext from "../../redux/SongContext";
 function RightSidebar(props) {
+  const song = useContext(SongContext)
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -46,8 +49,8 @@ function RightSidebar(props) {
         />
         <Slider
           query={"Instrumentalness"}
-          leftInfo={"least instrum"}
-          rightInfo={"Most instrum"}
+          leftInfo={"back to basics"}
+          rightInfo={"an orchestra please!"}
           val={instrumentalness}
           change={(e) => {
             dispatch(
@@ -59,8 +62,8 @@ function RightSidebar(props) {
         />
         <Slider
           query={"Speechiness"}
-          leftInfo={"least words"}
-          rightInfo={"Most words"}
+          leftInfo={"no words please"}
+          rightInfo={"linguist!"}
           val={speechiness}
           change={(e) => {
             dispatch(
@@ -96,7 +99,10 @@ function RightSidebar(props) {
             );
           }}
         />
+        <h2>Choose one song to grow your recs upon</h2>
+        <SearchForRec/>
         <RadioButtons/>
+        <input></input>
         <div className={styles.recButton}><RecommendationsButton
           recSrc={recSrc}
           recNames={recNames}

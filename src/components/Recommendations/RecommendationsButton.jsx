@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateRecommendations } from "../../redux/recommendationsReducer";
+import SongContext from "../../redux/SongContext";
 
 function RecommendationsButton() {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ function RecommendationsButton() {
   const speechiness = useSelector((state) =>  state.recQueries.speechiness)
   const valence = useSelector((state)=> state.recQueries.valence)
   const genres = useSelector((state) =>state.genres.genres)
+  const song = useSelector((state)=> state.song.song)
   const recsButton = async () => {
     try {
       const response = await fetch(
@@ -18,7 +20,7 @@ function RecommendationsButton() {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({danceability: danceability, instrumentalness: instrumentalness, speechiness: speechiness, popularity: popularity, valence: valence, genres: genres})
+          body: JSON.stringify({danceability: danceability, instrumentalness: instrumentalness, speechiness: speechiness, popularity: popularity, valence: valence, genres: genres, song: song})
         }
       );
       const data = await response.json();

@@ -3,11 +3,13 @@ import recommendationsReducer from "./recommendationsReducer";
 import recQueriesReducer from "./recQueriesReducer";
 import tokenReducer from "./tokenReducer";
 import genreReducer from "./genreReducer";
+import songReducer from "./songReducer";
 export default configureStore({
     reducer: {
         recommendations: recommendationsReducer,
         token: tokenReducer,
         recQueries: recQueriesReducer,
-        genres: genreReducer
+        genres: genreReducer,
+        song: songReducer
     }
 })

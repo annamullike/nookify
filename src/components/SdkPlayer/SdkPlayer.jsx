@@ -198,6 +198,7 @@ function SdkPlayer(props) {
                       />
                     </svg>
                   </a>
+                  <a onClick={transfer}>Transfer</a>
                 </div>
               </div>
             </div>

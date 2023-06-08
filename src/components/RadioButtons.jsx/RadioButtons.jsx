@@ -7,6 +7,7 @@ function RadioButtons() {
   const [data, setData] = useState([]);
   const token = useSelector((state) => state.token.token);
   const [checkedGenres, setCheckedGenres] = useState([]);
+  const genretest = useSelector((state)=> state.genres.genres)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,11 +40,14 @@ function RadioButtons() {
       setCheckedGenres((prev) => 
         prev.filter((genre) => genre !== e.target.value)
       )
-      dispatch(setReduxGenre({
-        genres: checkedGenres
-      }))
+      
     }
   };
+  useEffect(() => {
+    dispatch(setReduxGenre({
+        genres: checkedGenres
+      }))
+  },[checkedGenres])
   const radioButts = [];
   for (let i = 0; i < 15; i++) {
     radioButts.push(
@@ -61,7 +65,7 @@ function RadioButtons() {
   }
   return (
     <div>
-      <button onClick={() => console.log(checkedGenres)}>TESTER</button>
+      <button onClick={() => console.log(genretest)}>TESTER</button>
       <button onClick={() => console.log("GENRES ", data)}>genres</button>
       <h2>Choose up to 5 genres</h2>
       {data && radioButts}
