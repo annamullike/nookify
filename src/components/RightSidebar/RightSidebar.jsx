@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateRecQuery } from "../../redux/recQueriesReducer";
 import Card from "../Card/Card";
 import Slider from "./Slider";
+import RadioButtons from "../RadioButtons.jsx/RadioButtons";
 function RightSidebar(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const toggleSidebar = () => {
@@ -95,8 +96,7 @@ function RightSidebar(props) {
             );
           }}
         />
-        <input type="text" id="searchInput" placeholder="Enter country"/>
-        <ul id="searchResults"></ul>
+        <RadioButtons/>
         <div className={styles.recButton}><RecommendationsButton
           recSrc={recSrc}
           recNames={recNames}

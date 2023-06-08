@@ -37,8 +37,11 @@ router.post("/like", spotifyController.refreshToken, spotifyController.likeTrack
   //console.log("end of middleware in like")
   return res.status(200).send("success")
 })
-router.get("/like", spotifyController.refreshToken, spotifyController.currentTrack, (req,res) => {
-  return res.status(200).send("success")
+router.get("/getgenre", spotifyController.refreshToken, spotifyController.getTopArtists, (req,res) => {
+  return res.status(200).json(res.locals.top10Genres)
+})
+router.get("/current", spotifyController.refreshToken, spotifyController.currentTrack, (req,res) => {
+  return res.status(200).json({current: res.locals.currTrack})
 })
 router.get("/accesstoken", spotifyController.refreshToken, (req,res) => {
   return res.status(200).json({"token": res.locals.accessToken})
@@ -53,6 +56,6 @@ router.get("/transfer", spotifyController.refreshToken, spotifyController.getDev
 //   return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
 // })
 router.post("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
-  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artist: res.locals.artistNamesData})
+  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artist: res.locals.artistNamesData, genres: res.locals.top10Genres})
 })
 module.exports = router;

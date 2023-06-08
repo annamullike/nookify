@@ -5,12 +5,14 @@ import Card from "./components/Card/Card";
 import Navbar from "./components/Navbar";
 import TopTracksButton from "./components/TopTracksButton";
 
+
 import Sidebar from "./components/Search/Sidebar";
 import SdkPlayer from "./components/SdkPlayer/SdkPlayer";
 import RightSidebar from "./components/RightSidebar/RightSidebar";
 import TopArtistsButton from "./components/TopArtists/TopArtistsButton";
 
 import { useDispatch, useSelector} from "react-redux";
+import { setReduxToken } from "./redux/tokenReducer";
 function App() {
   
   const dispatch = useDispatch();
@@ -32,19 +34,22 @@ function App() {
       .then((data) => {
         console.log("token here ", data.token);
         setToken(data.token);
+        dispatch(setReduxToken({
+          token: data.token
+        }))
       });
   }, []);
   
   return (
     <div>
       <Navbar />
-      <TopTracksButton
+      {/* <TopTracksButton
         setTopImages={setTopImages}
         setTopNames={setTopNames}
         setIdTop={setIdTop}
         setTopArtist={setTopArtist}
-      />
-      <TopArtistsButton />
+      /> */}
+      {/* <TopArtistsButton /> */}
       {token === "" ? <AuthButton /> : <SdkPlayer token={token} />}
 
       <div className="contentBox">

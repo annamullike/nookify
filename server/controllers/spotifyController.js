@@ -58,9 +58,12 @@ spotifyController.getTopArtists = async (req, res, next) => {
         .sort(([, a], [, b]) => b - a)
         .slice(0, 5)
         .map(([key]) => key);
+        res.locals.top10Genres = Object.entries(genreObj)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 15)
+        .map(([key]) => key);
       // res.locals.top5Genres = top5Genres;
       res.locals.topArtistsData = data.items;
-      console.log("MADE IT IN TOP ARTISTS");
       return next();
     });
 };
@@ -138,15 +141,20 @@ spotifyController.recommendations = async (req, res, next) => {
       Math.floor(Math.random() * 22),
     ];
     const num = nums[Math.floor(Math.random() * nums.length)];
-    let { danceability, popularity, speechiness, instrumentalness, valence } =
+    let { danceability, popularity, speechiness, instrumentalness, valence, genres } =
       req.body;
-    const seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
-    const seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
-    const seed_genres = res.locals.top5Genres
+    if (genres.length === 0) {
+      genres = res.locals.top5Genres
       .slice(0, 5)
       .join(",")
       .replaceAll(" ", "%20");
-    let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${seed_genres}&seed_tracks=${seed_tracks}&limit=12`;
+    } else {
+      console.log("USERS PICKED GENRES HERE ",genres.length, "<<length",genres)
+    }
+    const seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
+    const seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
+    // const seed_genres = 
+    let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${genres}&seed_tracks=${seed_tracks}&limit=12`;
     // &target_popularity=${popularity}&target_instrumentalness=${instrumentalness}&target_speechiness=${speechiness}&target_danceability=${danceability}&target_valence=${valence}`
     if (popularity !== undefined) uri += `&target_popularity=${popularity*.1}`;
     if (danceability !== undefined)
@@ -172,14 +180,14 @@ spotifyController.recommendations = async (req, res, next) => {
     res.locals.imgSrc = recommendations.tracks.map(
       (obj) => obj.album.images[1].url
     );
-    console.log("data here in recs ", recommendations.artists)
     res.locals.trackTitleData = recommendations.tracks.map((obj) => obj.name);
     res.locals.titleIdData = recommendations.tracks.map((obj) => obj.id);
     res.locals.artistNamesData = recommendations.tracks.map(
       (obj) => obj.album.artists[0].name
     );
     // console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData);
-    console.log("ARTISTS NAMES ", res.locals.artistNamesData)
+    // console.log("ARTISTS NAMES ", res.locals.artistNamesData)
+    // console.log("10 genres ", res.locals.top10Genres)
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);
@@ -254,7 +262,7 @@ spotifyController.currentTrack = async (req, res, next) => {
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
-    const { track } = req.body;
+    // const { track } = req.body;
     const response = await fetch(
       `https://api.spotify.com/v1/me/player/currently-playing`,
       {
@@ -270,6 +278,12 @@ spotifyController.currentTrack = async (req, res, next) => {
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
     }
+    else{
+      currentResponse = await response.json()
+      res.locals.currTrack = currentResponse.item.artists[0].id
+    return next()
+    }
+    
   } catch (error) {
     console.error("Error in fetch request:", error);
   }
@@ -295,6 +309,7 @@ spotifyController.likeTrack = async (req, res, next) => {
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
     }
+    console.log("INSIDE THE LIKE TRACK MIDDLEWARE")
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);

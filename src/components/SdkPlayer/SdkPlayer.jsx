@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./SdkPlayer.module.scss"
+import styles from "./SdkPlayer.module.scss";
 function SdkPlayer(props) {
   const track = {
     name: "",
@@ -13,6 +13,26 @@ function SdkPlayer(props) {
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [set, setSet] = useState(false);
+  const [currId, setCurrId] = useState("");
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/spotify/current")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setCurrId(data.current);
+  //     });
+  // }, [currId]);
+  const like = () => {
+    fetch("http://localhost:5000/api/spotify/like", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        track: currId,
+      }),
+    });
+  };
+
   const transfer = () => {
     setSet(true);
     fetch("http://localhost:5000/api/spotify/transfer")
@@ -58,7 +78,7 @@ function SdkPlayer(props) {
 
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
-
+        setCurrId(state.track_window.current_track.id)
         player.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
         });
@@ -72,6 +92,7 @@ function SdkPlayer(props) {
   }, []);
   return (
     <>
+    <button onClick={()=>{console.log(currId)}}>test id</button>
       <div className={styles.player}>
         <div className="player-container">
           {!set ? (
@@ -85,59 +106,99 @@ function SdkPlayer(props) {
                 className="now-playing-cover"
                 alt="none"
               />
-              
-            
+
               <div className={styles.right}>
                 <div className={styles.currentTrack}>{current_track.name}</div>
 
                 <div className={styles.currentArtist}>
                   {current_track.artists[0].name}
                 </div>
-                <div><a
-                  className="btn-spotify"
-                  onClick={() => {
-                    player.previousTrack();
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-rewind" viewBox="0 0 16 16">
-  <path d="M9.196 8 15 4.633v6.734L9.196 8Zm-.792-.696a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L8.404 7.304Z"/>
-  <path d="M1.196 8 7 4.633v6.734L1.196 8Zm-.792-.696a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L.404 7.304Z"/>
-</svg>
-                  
-                </a>
+                <div>
+                  <a
+                    className="btn-spotify"
+                    onClick={() => {
+                      player.previousTrack();
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-rewind"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M9.196 8 15 4.633v6.734L9.196 8Zm-.792-.696a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L8.404 7.304Z" />
+                      <path d="M1.196 8 7 4.633v6.734L1.196 8Zm-.792-.696a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L.404 7.304Z" />
+                    </svg>
+                  </a>
 
-                <a
-                  className="btn-spotify"
-                  onClick={() => {
-                    player.togglePlay();
-                  }}
-                >
-                  
-                  {is_paused ? <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-play-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
-          </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pause" viewBox="0 0 16 16">
-  <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-</svg>}
-                </a>
+                  <a
+                    className="btn-spotify"
+                    onClick={() => {
+                      player.togglePlay();
+                    }}
+                  >
+                    {is_paused ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-play-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-pause"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z" />
+                      </svg>
+                    )}
+                  </a>
 
-                <a
-                  className="btn-spotify"
-                  onClick={() => {
-                    player.nextTrack();
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-fast-forward" viewBox="0 0 16 16">
-  <path d="M6.804 8 1 4.633v6.734L6.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z"/>
-  <path d="M14.804 8 9 4.633v6.734L14.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z"/>
-</svg>
-                </a></div>
+                  <a
+                    className="btn-spotify"
+                    onClick={() => {
+                      player.nextTrack();
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-fast-forward"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M6.804 8 1 4.633v6.734L6.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z" />
+                      <path d="M14.804 8 9 4.633v6.734L14.804 8Zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692Z" />
+                    </svg>
+                  </a>
+                  <a onClick={like}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-heart-fill"
+                      viewBox="0 0 16 16"
+                      style={{ paddingLeft: "170px"}}
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           )}

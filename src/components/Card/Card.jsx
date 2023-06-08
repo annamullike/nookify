@@ -28,14 +28,14 @@ function Card(props) {
       }),
     });
   };
-  const pause = () => {
-    fetch("http://localhost:5000/api/spotify/pause", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  };
+  // const pause = () => {
+  //   fetch("http://localhost:5000/api/spotify/pause", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // };
   return (
     <div
       className={styles.card}
