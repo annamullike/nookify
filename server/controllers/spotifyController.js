@@ -11,9 +11,36 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const spotifyController = {};
+spotifyController.searchArtist = async (req, res, next) => {
+  const { query } = req.params;
+
+let uri = `https://api.spotify.com/v1/search?q=${query}&type=artist&limit=1`
+  console.log(uri, query)
+  
+  fetch(uri, {
+    headers: {
+      Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      res.locals.searchDataName = data
+      //res.locals.searchDataImage = data.tracks.items;
+      return next();
+    });
+};
 spotifyController.search = async (req, res, next) => {
   const { query } = req.params;
-  fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`, {
+  const {lim} = req.query;
+  let uri;
+  if (lim === 1 || lim === "1") {
+    uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=1`
+  } else {
+    uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`
+  }
+  console.log(uri,lim, query)
+  // let uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`
+  fetch(uri, {
     headers: {
       Authorization: `Bearer ${spotifyApi["_credentials"].accessToken}`,
     },
@@ -140,18 +167,25 @@ spotifyController.recommendations = async (req, res, next) => {
       Math.floor(Math.random() * 22),
       Math.floor(Math.random() * 22),
     ];
+    
     const num = nums[Math.floor(Math.random() * nums.length)];
-    let { danceability, popularity, speechiness, instrumentalness, valence, genres } =
+    let { danceability, popularity, speechiness, instrumentalness, valence, genres, song } =
       req.body;
+      console.log(genres)
     if (genres.length === 0) {
       genres = res.locals.top5Genres
       .slice(0, 5)
       .join(",")
-      .replaceAll(" ", "%20");
+      .replaceAll(" ", "+");
     } else {
-      console.log("USERS PICKED GENRES HERE ",genres.length, "<<length",genres)
+      genres = genres.join(",").replaceAll(" ", "+")
+      console.log("USERS PICKED GENRES HERE ",genres, "<<length",genres)
     }
-    const seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
+    let seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
+    if (song!==undefined || song === "" || song !==null) {
+      seed_tracks = song
+    }
+    
     const seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
     // const seed_genres = 
     let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${genres}&seed_tracks=${seed_tracks}&limit=12`;

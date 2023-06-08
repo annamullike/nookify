@@ -18,6 +18,9 @@ router.get("/topartists", spotifyController.getTopArtists, (req, res) => {
 router.get("/search/:query", spotifyController.refreshToken ,spotifyController.search, (req,res) => {
   return res.status(200).json({data: res.locals.searchDataName})
 })
+router.get("/searchartist/:query", spotifyController.refreshToken ,spotifyController.searchArtist, (req,res) => {
+  return res.status(200).json({data: res.locals.searchDataName})
+})
 router.post("/playcurrent", spotifyController.refreshToken, spotifyController.playCurrent, (req,res) => {
   return res.status(200).send("SUCCESS")
 })
