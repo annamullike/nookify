@@ -13,17 +13,7 @@ function TopTracksButton(props) {
     fetch("http://localhost:5000/api/spotify/toptracks")
       .then((res) => res.json())
       .then((data) => {
-        // setTracks(data)
-        // const names = [];
-        // const images = [];
-        // const id = [];
-        // for (let i = 0; i < tracks.data.length; i++) {
-        //   //images.push(tracks)
-        //   images.push(tracks.data[i].album.images[1].url);
-        //   names.push(tracks.data[i].name);
-        //   id.push(tracks.data[i].id);
-        // }
-        
+        props.setTopArtist(data.artist)
         props.setTopNames(data.name);
         props.setTopImages(data.src);
         props.setIdTop(data.id);
