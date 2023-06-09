@@ -4,7 +4,18 @@ $c3: #ffffaa;
 $c4: #c48d3f;
 $c5: #fff563;
 
-
+.spot {
+  display: flex;
+  justify-content: space-between;
+}
+.thirdLine {
+  display: flex;
+  justify-content: space-between;
+}
+.onlyButtons {
+  display: flex;
+  // justify-content: space-between;
+}
 .left {
     float: left;
 }

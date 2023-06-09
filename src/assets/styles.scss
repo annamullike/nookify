@@ -70,6 +70,21 @@ body {
 a {
   cursor: pointer;
 }
+.splash {
+  padding-top: 10em;
+  font-size: 50px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .splashContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
 .contentBox {
   width: 100%;
   max-width: 1800px;

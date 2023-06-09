@@ -1,16 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const songSlice = createSlice({
-    name: "setReduxSong",
-    initialState: {
-        song: ""
+  name: "setReduxSong",
+  initialState: {
+    song: "",
+    artist: "",
+  },
+  reducers: {
+    setReduxSong: (state, action) => {
+      const { song, artist } = action.payload;
+      if (song !== undefined) {
+        state.song = song;
+      }
+      if (artist !== undefined) {
+        state.artist = artist;
+      }
     },
-    reducers: {
-        setReduxSong: (state, action) => {
-            state.song = action.payload.song
-        }
-    }
-})
+  },
+});
 
-export const {setReduxSong} = songSlice.actions;
-export default songSlice.reducer
+export const { setReduxSong } = songSlice.actions;
+export default songSlice.reducer;

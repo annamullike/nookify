@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import styles from "./Search.module.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setReduxSong } from "../../redux/songReducer";
-function SearchForRecResults(props) {
+function SearchForRecArtistResults(props) {
   const dispatch = useDispatch();
-  const { title, src, id, artist } = props;
-  const [song, setSong] = useState("");
+  const { src, id, artist } = props;
+  const omg = useSelector((state)=> state.song.artist)
   const button = () => {
     console.log("hi ", id);
-    setSong(id);
+
     dispatch(
       setReduxSong({
-        song: id,
+        artist: id,
       })
     );
   };
   return (
     <div onClick={button} className={styles.searchResults2}>
+      <button onClick={()=>console.log(omg)}>hihi</button>
       <div className={styles.searchResultsContainer2}>
         <img width={"15%"} height={"20%"} src={src}></img>
         <div className={styles.info2}>
-          <h3>{title}</h3>
           <h3>{artist}</h3>
         </div>
       </div>
@@ -28,4 +28,4 @@ function SearchForRecResults(props) {
   );
 }
 
-export default SearchForRecResults;
+export default SearchForRecArtistResults;

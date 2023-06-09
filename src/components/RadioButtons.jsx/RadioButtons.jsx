@@ -3,11 +3,11 @@ import styles from "./RadioButtons.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setReduxGenre } from "../../redux/genreReducer";
 function RadioButtons() {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const token = useSelector((state) => state.token.token);
   const [checkedGenres, setCheckedGenres] = useState([]);
-  const genretest = useSelector((state)=> state.genres.genres)
+  const genretest = useSelector((state) => state.genres.genres);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,24 +33,57 @@ function RadioButtons() {
   const handlecheckbox = (e) => {
     if (e.target.checked) {
       setCheckedGenres((prev) => [...prev, e.target.value]);
-      dispatch(setReduxGenre({
-        genres: checkedGenres
-      }));
+      dispatch(
+        setReduxGenre({
+          genres: checkedGenres,
+        })
+      );
     } else {
-      setCheckedGenres((prev) => 
+      setCheckedGenres((prev) =>
         prev.filter((genre) => genre !== e.target.value)
-      )
-      
+      );
     }
   };
   useEffect(() => {
-    dispatch(setReduxGenre({
-        genres: checkedGenres
-      }))
-  },[checkedGenres])
-  const radioButts = [];
-  for (let i = 0; i < 15; i++) {
-    radioButts.push(
+    dispatch(
+      setReduxGenre({
+        genres: checkedGenres,
+      })
+    );
+  }, [checkedGenres]);
+  const radioButts1 = [];
+  const radioButts2 = [];
+  const radioButts3 = [];
+  for (let i = 0; i < 5; i++) {
+    radioButts1.push(
+      <div>
+        <input
+          onChange={handlecheckbox}
+          type="checkbox"
+          name="radio"
+          value={`${data[i]}`}
+          id={`gen${i}`}
+        />
+        <label htmlFor={`gen${i}`}>{data[i]}</label>
+      </div>
+    );
+  }
+  for (let i = 5; i < 10; i++) {
+    radioButts2.push(
+      <div>
+        <input
+          onChange={handlecheckbox}
+          type="checkbox"
+          name="radio"
+          value={`${data[i]}`}
+          id={`gen${i}`}
+        />
+        <label htmlFor={`gen${i}`}>{data[i]}</label>
+      </div>
+    );
+  }
+  for (let i = 10; i < 15; i++) {
+    radioButts3.push(
       <div>
         <input
           onChange={handlecheckbox}
@@ -65,10 +98,16 @@ function RadioButtons() {
   }
   return (
     <div>
-      <button onClick={() => console.log(genretest)}>TESTER</button>
-      <button onClick={() => console.log("GENRES ", data)}>genres</button>
+      {/* <button onClick={() => console.log(genretest)}>TESTER</button>
+      <button onClick={() => console.log("GENRES ", data)}>genres</button> */}
       <h2>Choose up to 5 genres</h2>
-      {data && radioButts}
+      {data && (
+        <div className={styles.radioButtons}>
+          <div className={styles.butt}>{radioButts1}</div>
+          <div className={styles.butt}>{radioButts2}</div>
+          <div className={styles.butt}>{radioButts3}</div>
+        </div>
+      )}
     </div>
   );
 }
