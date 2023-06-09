@@ -84,7 +84,7 @@ function Card(props) {
           </a></div>
         </div>
 
-        <img src={src} />
+        <img width={"90%"} height={"90%"} src={src} />
         <div>
           
           

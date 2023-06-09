@@ -24,8 +24,7 @@ let uri = `https://api.spotify.com/v1/search?q=${query}&type=artist&limit=1`
   })
     .then((res) => res.json())
     .then((data) => {
-      res.locals.searchDataName = data
-      //res.locals.searchDataImage = data.tracks.items;
+      res.locals.searchDataName = data //.artists.items[0].id
       return next();
     });
 };
@@ -169,7 +168,7 @@ spotifyController.recommendations = async (req, res, next) => {
     ];
     
     const num = nums[Math.floor(Math.random() * nums.length)];
-    let { danceability, popularity, speechiness, instrumentalness, valence, genres, song } =
+    let { danceability, popularity, speechiness, instrumentalness, valence, genres, song, artist } =
       req.body;
       console.log(genres)
     if (genres.length === 0) {
@@ -182,15 +181,18 @@ spotifyController.recommendations = async (req, res, next) => {
       console.log("USERS PICKED GENRES HERE ",genres, "<<length",genres)
     }
     let seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
-    if (song!==undefined || song === "" || song !==null) {
+    
+    if (song!==undefined || song !== "" || song !==null) {
       seed_tracks = song
     }
     
-    const seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
-    // const seed_genres = 
+    let seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
+    if (artist!==undefined || artist !== "" || artist !==null) {
+      seed_artists = artist;
+    }
     let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${genres}&seed_tracks=${seed_tracks}&limit=12`;
     // &target_popularity=${popularity}&target_instrumentalness=${instrumentalness}&target_speechiness=${speechiness}&target_danceability=${danceability}&target_valence=${valence}`
-    if (popularity !== undefined) uri += `&target_popularity=${popularity*.1}`;
+    if (popularity !== undefined) uri += `&target_popularity=${popularity*10}`;
     if (danceability !== undefined)
       uri += `&target_danceability=${danceability*.1}`;
     if (speechiness !== undefined) uri += `&target_speechiness=${speechiness*.1}`;
@@ -219,9 +221,6 @@ spotifyController.recommendations = async (req, res, next) => {
     res.locals.artistNamesData = recommendations.tracks.map(
       (obj) => obj.album.artists[0].name
     );
-    // console.log("IDS ARE HERE IN RECS ", res.locals.titleIdData);
-    // console.log("ARTISTS NAMES ", res.locals.artistNamesData)
-    // console.log("10 genres ", res.locals.top10Genres)
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);
@@ -322,6 +321,59 @@ spotifyController.currentTrack = async (req, res, next) => {
     console.error("Error in fetch request:", error);
   }
 };
+spotifyController.checkTrack = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const { song } = req.params;
+    console.log("THE SONG MADE IT HERE ", song)
+    const response = await fetch(`https://api.spotify.com/v1/me/tracks/contains?ids=${song}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    
+    res.locals.isSaved = await response.json();
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
+spotifyController.unlikeTrack = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    const { track } = req.body;
+    const response = await fetch(`https://api.spotify.com/v1/me/tracks`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ids: [track],
+      }),
+    });
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    console.log("INSIDE THE unLIKE TRACK MIDDLEWARE")
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
 spotifyController.likeTrack = async (req, res, next) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
@@ -343,7 +395,6 @@ spotifyController.likeTrack = async (req, res, next) => {
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
     }
-    console.log("INSIDE THE LIKE TRACK MIDDLEWARE")
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);

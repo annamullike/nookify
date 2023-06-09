@@ -18,6 +18,7 @@ function SearchForRec() {
     }
   }, [input]);
   return <div>
+    <h2 style={{ margin: 0}}>Choose one song to grow your recs upon!</h2>
     <input className={styles.input} placeholder={"Search song..."}
         onChange={(e) => {
           setInput(e.target.value);

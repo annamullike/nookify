@@ -30,6 +30,7 @@ router.post("/playtrack", spotifyController.refreshToken,spotifyController.getDe
 router.get("/pause",spotifyController.refreshToken, spotifyController.getDevice, spotifyController.pauseTrack, (req, res) => {
   return res.status(200).send("success")
 })
+
 router.post("/previous",spotifyController.refreshToken, spotifyController.rewind, (req,res) => {
   return res.status(200).send("success")
 })
@@ -38,6 +39,12 @@ router.post("/next",spotifyController.refreshToken, spotifyController.fastforwar
 })
 router.post("/like", spotifyController.refreshToken, spotifyController.likeTrack, (req,res) => {
   //console.log("end of middleware in like")
+  return res.status(200).send("success")
+})
+router.get("/checktrack/:song", spotifyController.refreshToken, spotifyController.checkTrack, (req,res) => {
+  return res.status(200).json({"boolean": res.locals.isSaved })
+})
+router.post("/unlike", spotifyController.refreshToken, spotifyController.unlikeTrack, (req, res) => {
   return res.status(200).send("success")
 })
 router.get("/getgenre", spotifyController.refreshToken, spotifyController.getTopArtists, (req,res) => {

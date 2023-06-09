@@ -12,6 +12,7 @@ function RecommendationsButton() {
   const valence = useSelector((state)=> state.recQueries.valence)
   const genres = useSelector((state) =>state.genres.genres)
   const song = useSelector((state)=> state.song.song)
+  const artist = useSelector((state) => state.song.artist)
   const recsButton = async () => {
     try {
       const response = await fetch(
@@ -20,7 +21,7 @@ function RecommendationsButton() {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({danceability: danceability, instrumentalness: instrumentalness, speechiness: speechiness, popularity: popularity, valence: valence, genres: genres, song: song})
+          body: JSON.stringify({danceability: danceability, instrumentalness: instrumentalness, speechiness: speechiness, popularity: popularity, valence: valence, genres: genres, song: song, artist: artist})
         }
       );
       const data = await response.json();

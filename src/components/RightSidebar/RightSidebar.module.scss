@@ -3,17 +3,30 @@ $c2: #81f1f7;
 $c3: #ffffaa;
 $c4: #c48d3f;
 $c5: #fff563;
+
+.button {
+  background-color: $c4;
+  border-radius: 30px 0 0 30px  ;
+}
 .container {
+  
   position: fixed;
   margin: 50px;
   bottom: 0;
   right: 0;
-  background-color: $c3;
-  width: 500px;
+  
+  width: 580px;
   height: 90%;
   padding: 15px;
-  transform: translateX(70%);
+  transform: translateX(99.5%);
   transition: transform 0.3s ease-in-out;
+  display: flex;
+}
+.innerContainer {
+  border-radius: 0 30px 30px 0 ;
+  background-color: $c3;
+  padding: 19px;
+
 }
 .container.visible {
   transform: translateX(0); 
@@ -80,4 +93,3 @@ h3 {
   margin: 0;
   padding: 18px 0 0 0;
 }
-  
