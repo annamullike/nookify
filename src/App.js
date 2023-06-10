@@ -66,8 +66,8 @@ function App() {
           </div>
         ) : (
           <div className="splash">
-            <div className="splashContent"><p>Sign in with Spotify to get started!</p>
-            <AuthButton/>
+            <div className="splashContent">
+            {token === "" ? <div><p>Sign in with Spotify to get started!</p><AuthButton /></div>  : <div>Toggle the sidebar to get your personalized music!</div>}
               </div>
             
           </div>

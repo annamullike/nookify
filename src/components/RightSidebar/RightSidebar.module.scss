@@ -4,32 +4,45 @@ $c3: #ffffaa;
 $c4: #c48d3f;
 $c5: #fff563;
 
+#toggle {
+  color:$c5;
+}
 .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: $c4;
-  border-radius: 30px 0 0 30px  ;
+  height: 5em;
+  width: 5em;
+  border-radius: 20px 0 0 20px;
 }
 .container {
-  
   position: fixed;
-  margin: 50px;
+  //margin: 50px;
   bottom: 0;
   right: 0;
-  
-  width: 580px;
-  height: 90%;
-  padding: 15px;
-  transform: translateX(99.5%);
+
+  width: 20vw;
+  height: 95vh;
+  //padding: 15px;
+  transform: translateX(88%);
   transition: transform 0.3s ease-in-out;
   display: flex;
 }
 .innerContainer {
-  border-radius: 0 30px 30px 0 ;
+  display: flex;
+  min-width: 10vw;
+  //border-radius: 0 30px 30px 0 ;
   background-color: $c3;
   padding: 19px;
-
+  // overflow-y: auto;
+}
+.contentWrapper {
+  flex-grow: 1;
 }
 .container.visible {
-  transform: translateX(0); 
+  transform: translateX(0);
+  //display: flex;
 }
 .recButton {
   justify-content: center;
@@ -41,55 +54,60 @@ $c5: #fff563;
 }
 
 .slider {
-  -webkit-appearance: none; 
+  display: flex;
+  -webkit-appearance: none;
   appearance: none;
-  width: 100%; 
+  width: 15vw;
   height: 25px;
   border-radius: 20px;
-  background: $c1; 
+  background: $c1;
   outline: none;
-  opacity: 0.7; 
+  opacity: 0.7;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 }
 .slider:hover {
-  opacity: 1; 
+  opacity: 1;
 }
 
-
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none; 
+  -webkit-appearance: none;
   appearance: none;
-  width: 35px; 
-  height: 35px; 
-  background: url(../../assets/fragment.png); 
+  width: 35px;
+  height: 35px;
+  background: url(../../assets/fragment.png);
   background-size: cover;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 35px; 
-  height: 35px; 
+  width: 35px;
+  height: 35px;
   background: url(../../assets/fragment.png);
   background-size: cover;
-  cursor: pointer; 
+  cursor: pointer;
 }
 .info {
   display: flex;
   flex-direction: row;
   padding-top: 10px;
+  width: 16vw;
   h4 {
     margin: 0;
     padding: 0;
+    font-size: 1.1em;
   }
   #left {
     margin-right: auto;
+    display: flex;
   }
   #right {
     margin-left: auto;
   }
 }
 h3 {
+  font-size: 1.5em;
+  display: flex;
   margin: 0;
   padding: 18px 0 0 0;
 }

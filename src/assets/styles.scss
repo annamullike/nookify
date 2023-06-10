@@ -7,10 +7,13 @@ $c5: #fff563;
   font-family: ACNHFont;
   src: url(../assets/VT323-Regular.ttf) format("truetype");
 }
+* {
+  font-family: ACNHFont, sans-serif;
+}
 body {
   color: rgb(69, 67, 67);
   background-color: $c2;
-  font-family: ACNHFont, sans-serif;
+  
 }
 
 .searchResults::-webkit-scrollbar {
@@ -65,13 +68,15 @@ body {
 .card {
   margin: auto;
   position: relative;
+  display: flex;
+ 
 }
 
 a {
   cursor: pointer;
 }
 .splash {
-  padding-top: 10em;
+  padding-top: 20rem;
   font-size: 50px;
   margin: auto;
   display: flex;
@@ -99,7 +104,7 @@ a {
   display: flex;
   .topContainer {
     
-    width: 2000px;
+    width: 200rem;
     display: flex;
     flex-wrap: wrap;
     gap:20px;
@@ -121,8 +126,10 @@ button {
   background-color: $c1;
   border-radius: 20px;
   border: none;
-  height: 40px;
-  width: 200px;
+  height: 45px;
+  width: 250px;
+  font-size: 20px;
+  
 }
 button:hover {
   cursor: pointer;

@@ -125,7 +125,7 @@ function SdkPlayer(props) {
             <button onClick={transfer}>transfer playback</button>
           ) : (
             <div className={styles.playerContent}>
-              <img
+              <img id={styles.imgAlbum}
                 width={"20%"}
                 height={"20%"}
                 src={current_track.album.images[0].url}

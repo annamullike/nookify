@@ -35,13 +35,16 @@ $c5: #fff563;
 }
 .playerContent {
   display: flex;
+  #imgAlbum {
+    width: 8em;
+  }
 }
 .player {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 500px;
+    width: 20vw;
     border-radius: 20px;
     display: flex;
     justify-content: center;
