@@ -7,7 +7,11 @@
         padding: 15px;
     }
 }
-
+@media only screen and (max-width: 1700px) {
+    .radioButtons {
+        font-size: .8rem;
+    }
+}
 // .container {
 //     width: 15vw;
 // }
