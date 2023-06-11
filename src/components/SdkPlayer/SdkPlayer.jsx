@@ -112,20 +112,14 @@ function SdkPlayer(props) {
   }, []);
   return (
     <>
-      <button
-        onClick={() => {
-          console.log(currId);
-        }}
-      >
-        test id
-      </button>
+      
       <div className={styles.player}>
         <div className="player-container">
           {!set ? (
             <button onClick={transfer}>transfer playback</button>
           ) : (
             <div className={styles.playerContent}>
-              <img
+              <img id={styles.imgAlbum}
                 width={"20%"}
                 height={"20%"}
                 src={current_track.album.images[0].url}
@@ -138,13 +132,14 @@ function SdkPlayer(props) {
                   <div className={styles.spot}>
                     {current_track.name}
 
-                    <img width={"12%"} height={"12%"} src={spotifyIcon} />
+                    <img id={styles.spotifyIcon} src={spotifyIcon} />
                   </div>
                 </div>
 
                 <div className={styles.currentArtist}>
                   {current_track.artists[0].name}
                 </div>
+                <div className={styles.albumName}>{current_track.album.name}</div>
                 <div className={styles.thirdLine}>
                   <div className={styles.onlyButtons}>
                     <a
@@ -228,7 +223,7 @@ function SdkPlayer(props) {
                       </a>
                     </div>
                 </div>
-                <a onClick={transfer}>Transfer</a>
+                {/* <a onClick={transfer}>Transfer</a> */}
               </div>
             </div>
           )}

@@ -37,7 +37,6 @@ spotifyController.search = async (req, res, next) => {
   } else {
     uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`
   }
-  console.log(uri,lim, query)
   // let uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`
   fetch(uri, {
     headers: {
@@ -170,7 +169,6 @@ spotifyController.recommendations = async (req, res, next) => {
     const num = nums[Math.floor(Math.random() * nums.length)];
     let { danceability, popularity, speechiness, instrumentalness, valence, genres, song, artist } =
       req.body;
-      console.log(genres)
     if (genres.length === 0) {
       genres = res.locals.top5Genres
       .slice(0, 5)
@@ -178,18 +176,24 @@ spotifyController.recommendations = async (req, res, next) => {
       .replaceAll(" ", "+");
     } else {
       genres = genres.join(",").replaceAll(" ", "+")
-      console.log("USERS PICKED GENRES HERE ",genres, "<<length",genres)
+      
     }
-    let seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
-    
+    let seed_tracks;
+    let seed_artists;
     if (song!==undefined || song !== "" || song !==null) {
       seed_tracks = song
+    } if (song==undefined || song == "" || song ==null) {
+      seed_tracks = res.locals.seedTracks.slice(num, num + 2).join(",");
     }
     
-    let seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
+    
     if (artist!==undefined || artist !== "" || artist !==null) {
       seed_artists = artist;
+    } 
+    if (artist==undefined || artist == "" || artist ==null) {
+      seed_artists = res.locals.seedArtists.slice(num, num + 1).join(",");
     }
+    
     let uri = `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists}&seed_genres=${genres}&seed_tracks=${seed_tracks}&limit=12`;
     // &target_popularity=${popularity}&target_instrumentalness=${instrumentalness}&target_speechiness=${speechiness}&target_danceability=${danceability}&target_valence=${valence}`
     if (popularity !== undefined) uri += `&target_popularity=${popularity*10}`;
@@ -221,6 +225,10 @@ spotifyController.recommendations = async (req, res, next) => {
     res.locals.artistNamesData = recommendations.tracks.map(
       (obj) => obj.album.artists[0].name
     );
+    res.locals.albumData = recommendations.tracks.map(
+      (obj) => obj.album.name
+    );
+    console.log("ALBUMS ",res.locals.albumData)
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);

@@ -19,6 +19,7 @@ function App() {
   const recSrc = useSelector((state) => state.recommendations.recSrc);
   const recIds = useSelector((state) => state.recommendations.recIds);
   const recArtist = useSelector((state) => state.recommendations.recArtist);
+  const recAlbum = useSelector((state) => state.recommendations.recAlbum);
   const [topImages, setTopImages] = useState([]);
   const [topNames, setTopNames] = useState([]);
   const [idT, setIdTop] = useState([]);
@@ -61,13 +62,14 @@ function App() {
                 id={recIds[index]}
                 key={index}
                 artist={recArtist[index]}
+                album={recAlbum[index]}
               />
             ))}
           </div>
         ) : (
           <div className="splash">
-            <div className="splashContent"><p>Sign in with Spotify to get started!</p>
-            <AuthButton/>
+            <div className="splashContent">
+            {token === "" ? <div><p>Sign in with Spotify to get started!</p><AuthButton /></div>  : <div>Toggle the sidebar to get your personalized music!</div>}
               </div>
             
           </div>
