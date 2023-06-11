@@ -92,23 +92,24 @@ a {
 }
 .contentBox {
   width: 100%;
-  max-width: 1800px;
+  max-width: 60vw;
   margin: auto;
   // .searchContainer {
   //   justify-content: center;
   //   display: grid;
   //   grid-template-columns: repeat(4, 1fr); /* 3 columns */
-  //   gap: 60px; /* gap between cards */
+  //   gap: 
+  padding: 180px; /* gap between cards */
   // }
   justify-content: center;
   display: flex;
   .topContainer {
-    
+    flex-grow: 1;
     width: 200rem;
     display: flex;
     flex-wrap: wrap;
     gap:20px;
-    // justify-content: center;
+    justify-content: center;
     // display: grid;
     // grid-template-columns: repeat(4, 1fr);
     // gap: 60px;
@@ -145,4 +146,12 @@ svg:hover {
 }
 svg:not(hover) {
   transition: 0.2s;
+}
+@media only screen and (max-width: 1440px) {
+  .contentBox {
+    width: 1000px;
+  }
+  svg {
+    width: 1.5VW;
+  }
 }

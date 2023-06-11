@@ -10,6 +10,7 @@ import RadioButtons from "../RadioButtons.jsx/RadioButtons";
 import SearchForRec from "../Search/SearchForRec";
 import SongContext from "../../redux/SongContext";
 import SearchForRecArtist from "../Search/SearchForRecArtist";
+import SdkPlayer from "../SdkPlayer/SdkPlayer";
 function RightSidebar(props) {
   const song = useContext(SongContext);
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -129,6 +130,7 @@ function RightSidebar(props) {
             recArtist={recArtist}
           />
         </div>
+        
       </div>
     </div>
   );
