@@ -145,6 +145,7 @@ function SdkPlayer(props) {
                 <div className={styles.currentArtist}>
                   {current_track.artists[0].name}
                 </div>
+                <div className={styles.albumName}>{current_track.album.name}</div>
                 <div className={styles.thirdLine}>
                   <div className={styles.onlyButtons}>
                     <a

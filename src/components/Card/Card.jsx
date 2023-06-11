@@ -4,7 +4,7 @@ import React from "react";
 import froggy from "../../assets/froggy2.png";
 import styles from "./Card.module.scss";
 function Card(props) {
-  const { title, src, id, artist } = props;
+  const { title, src, id, artist, album } = props;
   const like = () => {
     fetch("http://localhost:5000/api/spotify/like", {
       method: "POST",
@@ -52,8 +52,12 @@ function Card(props) {
           <div>
             <h3 id={styles.h3}>{title}</h3>
             <h4 id={styles.h4}>{artist}</h4>
+            
           </div>
-          <div className={styles.svgs}><a onClick={play}>
+          
+        </div>
+
+        <img src={src} /><h4 id={styles.albumName}>{album}</h4><div className={styles.svgs}><a onClick={play}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -82,9 +86,7 @@ function Card(props) {
               />
             </svg>
           </a></div>
-        </div>
 
-        <img src={src} />
         <div>
           
           

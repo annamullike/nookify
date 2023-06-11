@@ -66,6 +66,6 @@ router.get("/transfer", spotifyController.refreshToken, spotifyController.getDev
 //   return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artists: res.locals.artistNamesData})
 // })
 router.post("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
-  return res.status(200).json({src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artist: res.locals.artistNamesData, genres: res.locals.top10Genres})
+  return res.status(200).json({album: res.locals.albumData, src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artist: res.locals.artistNamesData, genres: res.locals.top10Genres})
 })
 module.exports = router;

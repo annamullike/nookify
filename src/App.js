@@ -19,6 +19,7 @@ function App() {
   const recSrc = useSelector((state) => state.recommendations.recSrc);
   const recIds = useSelector((state) => state.recommendations.recIds);
   const recArtist = useSelector((state) => state.recommendations.recArtist);
+  const recAlbum = useSelector((state) => state.recommendations.recAlbum);
   const [topImages, setTopImages] = useState([]);
   const [topNames, setTopNames] = useState([]);
   const [idT, setIdTop] = useState([]);
@@ -61,6 +62,7 @@ function App() {
                 id={recIds[index]}
                 key={index}
                 artist={recArtist[index]}
+                album={recAlbum[index]}
               />
             ))}
           </div>

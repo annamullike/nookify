@@ -16,6 +16,11 @@ h3 {
   overflow: hidden; /* Hide overflowing text */
   animation: reveal-text 8s infinite linear;
 }
+#albumName {
+  color: #646464;
+  padding: 0;
+  
+}
 #h4 {
   font-size: .9vw;
   white-space: nowrap; /* Prevent text from wrapping */

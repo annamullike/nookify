@@ -37,7 +37,6 @@ spotifyController.search = async (req, res, next) => {
   } else {
     uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`
   }
-  console.log(uri,lim, query)
   // let uri = `https://api.spotify.com/v1/search?q=${query}&type=track&limit=20`
   fetch(uri, {
     headers: {
@@ -226,6 +225,10 @@ spotifyController.recommendations = async (req, res, next) => {
     res.locals.artistNamesData = recommendations.tracks.map(
       (obj) => obj.album.artists[0].name
     );
+    res.locals.albumData = recommendations.tracks.map(
+      (obj) => obj.album.name
+    );
+    console.log("ALBUMS ",res.locals.albumData)
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);
