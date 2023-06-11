@@ -5,16 +5,17 @@ $c4: #c48d3f;
 $c5: #fff563;
 
 .search {
-  width: 500px;
-  height: 83vh;
+  width: 20vw;
+  height: 60rem;
 }
 
 .input {
   border: 2px;
   border-radius: 5px;
-  margin-left: 40px;
+  // margin-left: 40px;
+  display: flex;
   padding: 10px;
-  width: 332px;
+  width: 25rem;
 }
 
 .searchResults::-webkit-scrollbar {
@@ -61,12 +62,18 @@ $c5: #fff563;
     }
   }
 }
+.container {
+  display: flex;
+  flex-direction: column;
+}
 .searchResults {
   margin: 10px;
   padding: 0 10px 0 10px;
   //background-color: $c3;
-  max-width: 400px;
-  max-height: 90%;
+  //max-width: 30rem;
+  width: auto;
+  height: auto;
+  //max-height: 9rem;
 
   .searchResults::-webkit-scrollbar {
     width: 8px; /* Adjust the width of the scrollbar */
@@ -75,6 +82,8 @@ $c5: #fff563;
   .searchResultsContainer {
     border-radius: 10px;
     background-color: rgb(237, 242, 243);
+    height: auto;
+    width: auto;
     > img {
       margin: auto;
     }
@@ -91,6 +100,7 @@ $c5: #fff563;
     flex-grow: 1;
     margin-left: 15px;
     > h3 {
+      font-size: 1.3rem;
       margin: 0;
       color: rgb(69, 67, 67);
     }
@@ -106,4 +116,22 @@ $c5: #fff563;
     left: 0;
     width: 200px;
   }
+}
+@media only screen and (max-width: 1440px) {
+  .searchResultsContainer {
+    width: auto;
+    height: auto;
+    font-size: 6rem;
+  }
+  svg {
+    width: 1rem;
+  }
+  .info {
+    margin: 0;
+    h3 {
+      font-size: 3rem;
+      padding: 0;
+    }
+  }
+  
 }

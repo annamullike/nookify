@@ -31,7 +31,8 @@ function RecommendationsButton() {
           recIds: data.ids,
           recSrc: data.src,
           recArtist: data.artist,
-          recGenres: data.genres
+          recGenres: data.genres,
+          recAlbum: data.album,
         })
       );
     } catch (error) {

@@ -7,10 +7,13 @@ $c5: #fff563;
   font-family: ACNHFont;
   src: url(../assets/VT323-Regular.ttf) format("truetype");
 }
+* {
+  font-family: ACNHFont, sans-serif;
+}
 body {
   color: rgb(69, 67, 67);
   background-color: $c2;
-  font-family: ACNHFont, sans-serif;
+  
 }
 
 .searchResults::-webkit-scrollbar {
@@ -65,13 +68,15 @@ body {
 .card {
   margin: auto;
   position: relative;
+  display: flex;
+ 
 }
 
 a {
   cursor: pointer;
 }
 .splash {
-  padding-top: 10em;
+  padding-top: 20rem;
   font-size: 50px;
   margin: auto;
   display: flex;
@@ -87,23 +92,24 @@ a {
 }
 .contentBox {
   width: 100%;
-  max-width: 1800px;
+  max-width: 60vw;
   margin: auto;
   // .searchContainer {
   //   justify-content: center;
   //   display: grid;
   //   grid-template-columns: repeat(4, 1fr); /* 3 columns */
-  //   gap: 60px; /* gap between cards */
+  //   gap: 
+  padding: 180px; /* gap between cards */
   // }
   justify-content: center;
   display: flex;
   .topContainer {
-    
-    width: 2000px;
+    flex-grow: 1;
+    width: 200rem;
     display: flex;
     flex-wrap: wrap;
     gap:20px;
-    // justify-content: center;
+    justify-content: center;
     // display: grid;
     // grid-template-columns: repeat(4, 1fr);
     // gap: 60px;
@@ -121,8 +127,10 @@ button {
   background-color: $c1;
   border-radius: 20px;
   border: none;
-  height: 40px;
-  width: 200px;
+  height: 45px;
+  width: 250px;
+  font-size: 20px;
+  
 }
 button:hover {
   cursor: pointer;
@@ -138,4 +146,12 @@ svg:hover {
 }
 svg:not(hover) {
   transition: 0.2s;
+}
+@media only screen and (max-width: 1440px) {
+  .contentBox {
+    width: 1000px;
+  }
+  svg {
+    width: 1.5VW;
+  }
 }

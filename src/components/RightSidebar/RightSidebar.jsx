@@ -10,6 +10,7 @@ import RadioButtons from "../RadioButtons.jsx/RadioButtons";
 import SearchForRec from "../Search/SearchForRec";
 import SongContext from "../../redux/SongContext";
 import SearchForRecArtist from "../Search/SearchForRecArtist";
+import SdkPlayer from "../SdkPlayer/SdkPlayer";
 function RightSidebar(props) {
   const song = useContext(SongContext);
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -43,11 +44,15 @@ function RightSidebar(props) {
       className={`${styles.container} ${sidebarVisible ? styles.visible : ""}`}
     >
       <div className={styles.button} onClick={toggleSidebar}>
-        Toggle
+      <svg id={styles.toggle} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+</svg>
       </div>
       <div className={styles.innerContainer}>
         <div className={styles.content}>
           <h1>Get Personalized Music here</h1>
+          <SearchForRec />
+          <SearchForRecArtist />
           <Slider
             query={"Danceability"}
             leftInfo={"couch potato"}
@@ -115,10 +120,9 @@ function RightSidebar(props) {
           />
 
           <RadioButtons />
-          <input></input>
+
           <div className={styles.recButton}></div>
-          <SearchForRec />
-          <SearchForRecArtist />
+
           <RecommendationsButton
             recSrc={recSrc}
             recNames={recNames}
@@ -126,6 +130,7 @@ function RightSidebar(props) {
             recArtist={recArtist}
           />
         </div>
+        
       </div>
     </div>
   );

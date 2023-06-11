@@ -8,6 +8,7 @@ export const recommendationsSlice = createSlice({
     recSrc: [],
     recArtist: [],
     recGenres: [],
+    recAlbum: [],
   },
   reducers: {
     updateRecommendations: (state, action) => {
@@ -16,6 +17,7 @@ export const recommendationsSlice = createSlice({
       state.recSrc = action.payload.recSrc;
       state.recArtist = action.payload.recArtist;
       state.recGenres = action.payload.recGenres;
+      state.recAlbum = action.payload.recAlbum;
     },
   },
 });
