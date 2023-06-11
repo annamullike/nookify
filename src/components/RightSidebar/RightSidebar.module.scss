@@ -119,15 +119,17 @@ h3 {
     //font-size: .7rem;
     width: auto;
     height: auto;
+    min-height: 90%;
+    
   }
   .button {
     border-radius: 10px 0 0 10px ;
   }
   .sliderContainer {
     width: auto;
-    height: 7rem;
+    //height: 7rem;
   }
   .slider {
-    width: 100%;
+    //width: 100%;
   }
 }
