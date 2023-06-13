@@ -24,7 +24,7 @@ Songs can be like individually, and played individually from the recommended or 
 6. In the config.env file, paste in credentials where it says CLIENT ID HERE and CLIENT SECRET HERE without the brackets
     - CLIENT_ID = "[CLIENT ID HERE]"
     - CLIENT_SECRET = "[CLIENT SECRET HERE]"
-7. In your terminal, run the command "npm start".
+7. In your terminal, run "npm i" and then "npm start"
 8. Locate to http://localhost:3000
 9. Login with Spotify and Enjoy!
 
