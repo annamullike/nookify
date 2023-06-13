@@ -245,6 +245,7 @@ function SdkPlayer(props) {
             </div>
           )}
         </div>
+        <div className={styles.transfer}>transfer</div>
       </div>
     </>
   );
