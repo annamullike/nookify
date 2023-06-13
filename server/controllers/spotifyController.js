@@ -1,6 +1,6 @@
 const SpotifyWebApi = require("spotify-web-api-node");
 const redirectUri = "http://localhost:5000/api/spotify/callback";
-const clientId = "dbd6bdd2c40c42c696176d6bd1d108d5";
+const clientId = process.env.CLIENT_ID;
 const fetch = require("node-fetch");
 
 require("dotenv").config({ path: "config.env" });
@@ -85,10 +85,11 @@ spotifyController.getTopArtists = async (req, res, next) => {
         .map(([key]) => key);
         res.locals.top10Genres = Object.entries(genreObj)
         .sort(([, a], [, b]) => b - a)
-        .slice(0, 15)
+        .slice(0, 60)
         .map(([key]) => key);
       // res.locals.top5Genres = top5Genres;
       res.locals.topArtistsData = data.items;
+      console.log("TOPARTISTS")
       return next();
     });
 };
@@ -116,8 +117,8 @@ spotifyController.getTopTracks = async (req, res, next) => {
       res.locals.topImgSrc = data.items.map((obj) => obj.album.images[1].url);
       res.locals.topTrackData = data.items;
       res.locals.testingIdData = data.items.map((obj) => obj.album.id);
-      console.log(res.locals.seedTracks);
-      console.log("MADE IT IN TOP TRACKS");
+      //console.log(res.locals.seedTracks);
+      console.log("TOPTRACKS")
       return next();
     });
 };
@@ -128,8 +129,6 @@ spotifyController.playTrack = async (req, res, next) => {
     spotifyApi.setAccessToken(accessToken);
     const { trackUri } = req.body;
     const uri = "spotify:track:" + trackUri;
-    console.log("DEVICE HERE IN PLAYTRACK ", res.locals.nookifyDeviceId);
-    console.log("ID HER EIN PLAYTRACK ", res.locals.nookifyDeviceId);
     const response = await fetch(`https://api.spotify.com/v1/me/player/play`, {
       method: "PUT",
       headers: {
@@ -156,6 +155,7 @@ spotifyController.playTrack = async (req, res, next) => {
   return next();
 };
 spotifyController.recommendations = async (req, res, next) => {
+  console.log("RECS")
   try {
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
@@ -169,7 +169,7 @@ spotifyController.recommendations = async (req, res, next) => {
     const num = nums[Math.floor(Math.random() * nums.length)];
     let { danceability, popularity, speechiness, instrumentalness, valence, genres, song, artist } =
       req.body;
-    if (genres.length === 0) {
+    if (!genres || !genres.length) { // genres.length === 0
       genres = res.locals.top5Genres
       .slice(0, 5)
       .join(",")
@@ -234,6 +234,7 @@ spotifyController.recommendations = async (req, res, next) => {
     console.error("Error in fetch request:", error);
   }
 };
+
 spotifyController.transferPlayback = async (req, res, next) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
@@ -329,13 +330,104 @@ spotifyController.currentTrack = async (req, res, next) => {
     console.error("Error in fetch request:", error);
   }
 };
+spotifyController.createPlaylist = async (req, res, next) => {
+  console.log("IN CREATEA")
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    
+    const response = await fetch(`https://api.spotify.com/v1/users/${res.locals.userID}/playlists`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: res.locals.playlistName
+      })
+    });
+    const data2 =  await response.json()
+    res.locals.playlistID = data2.id
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
+spotifyController.addToPlaylist = async (req, res, next) => {
+  try {
+    const {tracks} = req.body;
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    
+    const playlistTracks = [];
+    console.log("TRACKS IDS IN ADDPLAY ",res.locals.titleIdData)
+    for (let i = 0 ; i < tracks.length; i++) {
+      playlistTracks.push(`spotify:track:${tracks[i]}`)
+    }
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${res.locals.playlistID}/tracks`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uris: playlistTracks
+      })
+    });
+    console.log("PLAYLIST TRACKS ", playlistTracks)
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
+spotifyController.getMe = async (req, res, next) => {
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    const accessToken = data.body["access_token"];
+    spotifyApi.setAccessToken(accessToken);
+    
+    const response = await fetch(`https://api.spotify.com/v1/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      console.error("Error ffwd track:", response.statusText);
+      const responseBody = await response.json();
+      console.error("Response body:", responseBody);
+    }
+    
+    const data2 = await response.json();
+    res.locals.userID = data2.id
+    return next();
+  } catch (error) {
+    console.error("Error in fetch request:", error);
+  }
+}
+
 spotifyController.checkTrack = async (req, res, next) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
     const accessToken = data.body["access_token"];
     spotifyApi.setAccessToken(accessToken);
     const { song } = req.params;
-    console.log("THE SONG MADE IT HERE ", song)
+  
     const response = await fetch(`https://api.spotify.com/v1/me/tracks/contains?ids=${song}`, {
       method: "GET",
       headers: {
@@ -376,7 +468,6 @@ spotifyController.unlikeTrack = async (req, res, next) => {
       const responseBody = await response.json();
       console.error("Response body:", responseBody);
     }
-    console.log("INSIDE THE unLIKE TRACK MIDDLEWARE")
     return next();
   } catch (error) {
     console.error("Error in fetch request:", error);

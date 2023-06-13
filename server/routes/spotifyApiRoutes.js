@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const spotifyController = require("../controllers/spotifyController");
+const acnhController = require("../controllers/acnhController");
 
 
 
@@ -30,7 +31,9 @@ router.post("/playtrack", spotifyController.refreshToken,spotifyController.getDe
 router.get("/pause",spotifyController.refreshToken, spotifyController.getDevice, spotifyController.pauseTrack, (req, res) => {
   return res.status(200).send("success")
 })
-
+router.get("/getme", spotifyController.getMe, (req,res) => {
+  return res.status(200).json({userID: res.locals.userID})
+})
 router.post("/previous",spotifyController.refreshToken, spotifyController.rewind, (req,res) => {
   return res.status(200).send("success")
 })
@@ -67,5 +70,8 @@ router.get("/transfer", spotifyController.refreshToken, spotifyController.getDev
 // })
 router.post("/recommendations", spotifyController.refreshToken, spotifyController.getTopArtists, spotifyController.getTopTracks, spotifyController.recommendations, (req, res) => {
   return res.status(200).json({album: res.locals.albumData, src: res.locals.imgSrc ,names: res.locals.trackTitleData, ids: res.locals.titleIdData, artist: res.locals.artistNamesData, genres: res.locals.top10Genres})
+})
+router.post("/createplaylist", spotifyController.refreshToken, acnhController.getVilliager2,spotifyController.refreshToken, spotifyController.getMe, spotifyController.createPlaylist, spotifyController.addToPlaylist, (req, res) => {
+  return res.status(200).send("SUCCESSS")
 })
 module.exports = router;

@@ -54,7 +54,7 @@ function RadioButtons() {
   const radioButts1 = [];
   const radioButts2 = [];
   const radioButts3 = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 13; i++) {
     radioButts1.push(
       <div>
         <input
@@ -68,7 +68,7 @@ function RadioButtons() {
       </div>
     );
   }
-  for (let i = 5; i < 10; i++) {
+  for (let i = 13; i < 26; i++) {
     radioButts2.push(
       <div>
         <input
@@ -82,7 +82,7 @@ function RadioButtons() {
       </div>
     );
   }
-  for (let i = 10; i < 15; i++) {
+  for (let i = 26; i < 39; i++) {
     radioButts3.push(
       <div>
         <input

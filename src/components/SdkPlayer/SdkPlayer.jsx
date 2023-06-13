@@ -128,7 +128,7 @@ function SdkPlayer(props) {
       <div className={styles.player}>
         <div className="player-container">
           {!set ? (
-            <button onClick={transfer}>transfer playback</button>
+            <button onClick={transfer}>Listen here!</button>
           ) : (
             <div className={styles.playerContent}>
               <img id={styles.imgAlbum}

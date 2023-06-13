@@ -17,7 +17,7 @@ function SearchForRecArtistResults(props) {
   };
   return (
     <div onClick={button} className={styles.searchResults2}>
-      <button onClick={()=>console.log(omg)}>hihi</button>
+    
       <div className={styles.searchResultsContainer2}>
         <img width={"15%"} height={"20%"} src={src}></img>
         <div className={styles.info2}>

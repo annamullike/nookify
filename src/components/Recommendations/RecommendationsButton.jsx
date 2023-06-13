@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateRecommendations } from "../../redux/recommendationsReducer";
 import SongContext from "../../redux/SongContext";
+import { setPlaylist } from "../../redux/playlistReducer";
 
 function RecommendationsButton() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function RecommendationsButton() {
         }
       );
       const data = await response.json();
+      
       dispatch(
         updateRecommendations({
           recNames: data.names,
