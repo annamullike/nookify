@@ -3,7 +3,7 @@ import AuthButton from "../AuthButton";
 import styles from "./Navbar.module.scss"
 import spotifylogo from "../../assets/Spotify_Logo_RGB_Green.png"
 // import "../assets/styles.scss";
-import { Link } from "react-router-dom";
+
 function Navbar() {
   
   return (

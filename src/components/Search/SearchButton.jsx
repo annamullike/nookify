@@ -20,6 +20,7 @@ function SearchButton(props) {
 
   return (
     <div className={styles.search}>
+      <h1>Search for a song here</h1>
       <input className={styles.input} placeholder={"Search song..."}
         onChange={(e) => {
           setInput(e.target.value);

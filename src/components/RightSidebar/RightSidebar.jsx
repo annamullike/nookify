@@ -39,14 +39,36 @@ function RightSidebar(props) {
       valence
     );
   }, [danceability, instrumentalness, speechiness, popularity, valence]);
+  const playlistbutton = () => {
+    fetch("http://localhost:5000/api/spotify/createplaylist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tracks: recIds,
+      }),
+    });
+  };
   return (
     <div
       className={`${styles.container} ${sidebarVisible ? styles.visible : ""}`}
     >
       <div className={styles.button} onClick={toggleSidebar}>
-      <svg id={styles.toggle} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-</svg>
+        <svg
+          id={styles.toggle}
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-list"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+          />
+        </svg>
       </div>
       <div className={styles.innerContainer}>
         <div className={styles.content}>
@@ -94,8 +116,8 @@ function RightSidebar(props) {
           />
           <Slider
             query={"Popularity"}
-            leftInfo={"least popular"}
-            rightInfo={"Most popular"}
+            leftInfo={"local bar music"}
+            rightInfo={"top hits"}
             val={popularity}
             change={(e) => {
               dispatch(
@@ -107,8 +129,8 @@ function RightSidebar(props) {
           />
           <Slider
             query={"Positivity"}
-            leftInfo={"Least positive"}
-            rightInfo={"Most positive"}
+            leftInfo={"least positive"}
+            rightInfo={"most positive"}
             val={valence}
             change={(e) => {
               dispatch(
@@ -121,16 +143,18 @@ function RightSidebar(props) {
 
           <RadioButtons />
 
-          <div className={styles.recButton}></div>
-
-          <RecommendationsButton
-            recSrc={recSrc}
-            recNames={recNames}
-            recIds={recIds}
-            recArtist={recArtist}
-          />
+          <div className={styles.recButtons}>
+            <RecommendationsButton
+              recSrc={recSrc}
+              recNames={recNames}
+              recIds={recIds}
+              recArtist={recArtist}
+            /> 
+            <button onClick={playlistbutton}>
+              Add all these recs to a playlist!
+            </button>
+          </div>
         </div>
-        
       </div>
     </div>
   );
