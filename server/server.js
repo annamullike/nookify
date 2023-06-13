@@ -4,14 +4,15 @@ const spotifyController = require("../server/controllers/spotifyController");
 const spotifyApiRoutes = require("./routes/spotifyApiRoutes");
 const acnhApiRoute = require("./routes/acnhApiRoutes")
 const aiRoutes = require("./routes/aiRoutes")
+const secretsRoute = require("./routes/secretsRoute")
 const cors = require("cors")
-//5kxnZh8gXyXdIvCWbDMevT
-//5ZULALImTm80tzUbYQYM9d
+
 app.use(cors());
 app.use(express.json());
 app.use("/api/spotify/", spotifyApiRoutes);
 app.use("/api/acnh/", acnhApiRoute)
 app.use("/api/ai/", aiRoutes)
+app.use("/api/secrets", secretsRoute)
 
 app.use((err, req, res, next) => {
   const defaultErr = {
