@@ -29,7 +29,7 @@ Songs can be like individually, and played individually from the recommended or 
 9. Login with Spotify and Enjoy!
 
 
-Anna Tran [@LinkedIn](http://linkedin.com/in/annatran)
+Anna Tran [@LinkedIn](http://linkedin.com/in/annatran10)
 
 
 
