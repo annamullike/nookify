@@ -1,7 +1,7 @@
 # Nookify
 This is a Spotify integrated application to give you a fine-tune list of recommendations based on your preferences! This includes getting a list of recommendations based on the danceabilitiy, popularity, instrumentalness, positivity and speechiness of a song. In addition to that, you are able to stream your music right through the application. All you need to get started is a Spotify Premium account.
 
-This application was made with Vite, JavaScript React.js, Redux.js, Express.js, the [Spotify API](https://developer.spotify.com/), and the [Animal Crossing API](http://acnhapi.com/).
+This application was made with Vite, JavaScript React.js, Redux.js, Express.js, the [Spotify API](https://developer.spotify.com/), [Spotify Web Api](https://github.com/thelinmichael/spotify-web-api-node) and the [Animal Crossing API](http://acnhapi.com/).
 ## Preview
 There will be a sidebar to give you 12 songs based on your preferences. If no preferences are specified, your recommendations will be based off your top 5 genres, 2 randomized tracks and 2 randomized artists from your top songs and artists.
 
